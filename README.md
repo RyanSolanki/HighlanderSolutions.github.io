@@ -1,3 +1,3 @@
-#Highlander Solutions#
+# Highlander Solutions #
 
-##Workout Planner##
+## Workout Planner ##

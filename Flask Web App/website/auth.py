@@ -1,4 +1,6 @@
-from flask import Blueprint, render_template, request, flash # Import the Blueprint class from the flask package
+from flask import Blueprint, render_template, request, flash, redirect, url_for # Import the Blueprint class from the flask package
+from .models import user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 auth = Blueprint('auth', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
@@ -29,6 +31,10 @@ def sign_up():
             flash('Password must be at least 8 characters.', category='error')
         else:
             # add user to database
+            new_user = User(email=email, firstName=firstName, password=generate_password_hash(password1, method ='sha256'))
+            db.session.add(new_user)
+            db.session.commit()
             flash('Account created!', category='success')
+            return redirect(url_for('views.home'))
 
     return render_template("sign_up.html") # This is the function that will be triggered when the URL is visited

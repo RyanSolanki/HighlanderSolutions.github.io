@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for # Import the Blueprint class from the flask package
-from .models import user
+from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs

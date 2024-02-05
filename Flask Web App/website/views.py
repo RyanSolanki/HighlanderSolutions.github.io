@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, request, flash # Import the Blueprint class from the flask package
+from flask import Blueprint, render_template, request, flash, jsonify # Import the Blueprint class from the flask package
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
+import json
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 views = Blueprint('views', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
@@ -20,3 +21,15 @@ def home():
             db.session.commit()
             flash('Note added!', category='success')
     return render_template("home.html", user=current_user) # This is the function that will be triggered when the URL is visited
+
+@views.route('/delete-note', methods=['POST'])
+def delete_note():
+    note = json.loads(request.data) #Take in data from a post request
+    noteId = note['noteId'] #load the above as a python dictionary and access the noteId attribute found in index.js
+    note = Note.query.get(noteId) #look for the note that has the id
+    if note: #check if the note exists
+        if note.user_id == current_user.id: #if the currently signed in user owns the note delete the note
+            db.session.delete(note)
+            db.session.commit()
+            
+    return jsonify({}) #return an empty response because we have to return something

@@ -12,7 +12,6 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        
         user = User.query.filter_by(email=email).first()
         if user:
             if check_password_hash(user.password, password):
@@ -23,11 +22,11 @@ def login():
                 flash('Incorrect password, try again.', category='error')
         else:
             flash('Email does not exist.', category='error')
-        
+
     return render_template("login.html", user=current_user) # This is the function that will be triggered when the URL is visited
 
 @auth.route('/logout') # This is a decorator that tells Flask what URL to trigger the function
-@login_required
+@login_required # This is a decorator that tells Flask that we need to login in order to logout
 def logout():
     logout_user()
     return redirect(url_for('auth.login')) # This is the function that will be triggered when the URL is visited
@@ -39,24 +38,27 @@ def sign_up():
         first_name = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        
+
         user = User.query.filter_by(email=email).first()
+
         if user:
-            flash('Email already exists', category='error')
+            flash('Email already in use.', category='error')
         elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+            flash('Email must be longer than 3 characters!', category='error')
         elif len(first_name) < 2:
-            flash('First name must be greater than 1 character.', category='error')
+            flash('First Name must be at least 2 characters long!', category='error')
         elif password1 != password2:
-            flash('Passwords don\'t match.', category='error')
-        elif len(password1) < 7:
-            flash('Password must be at least 7 characters.', category='error')
+            flash('Passwords do not match!', category='error')
+        elif len(password1) < 8:
+            flash('Password must be at least 8 characters.', category='error')
         else:
-            #add user to database
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method='pbkdf2:sha256'))
+            # add user to database
+            db.create_all()
+            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method ='pbkdf2:sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(new_user, remember=True)
+            login_user(user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
+
     return render_template("sign_up.html", user=current_user) # This is the function that will be triggered when the URL is visited

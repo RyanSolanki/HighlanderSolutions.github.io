@@ -1,0 +1,243 @@
+{% extends "base.html" %} 
+{% block title %}Workouts{% endblock %}
+
+{% block content %}
+<h1 style="font-weight:bold; font-size: 60px;text-align: center; margin: 20px;">Exercises</h1>
+    <form  style="display: grid; grid-template-columns: 350px 350px 350px;" action="/action_page.php"> <!--Where the data will be sent to [action_page.php is a place holder]-->
+
+        <!--Arms-->
+
+        <div>
+            <p style="font-weight: bold; font-size: 40px; margin-bottom: 10px;">Arms</p>
+            <div style="padding-left: 10px; margin-bottom: 0px;">
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Dumbbells</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ArmsD1" name="ArmsD1" value="DSP">
+                        <label for="ArmsD1">Dumbbell Shoulder Press</label>
+                        <br />
+                        <input type="checkbox" id="ArmsD2" name="ArmsD2" value="DBC">
+                        <label for="ArmsD2">Dumbbell Bicep Curls</label> 
+                        <br />
+                        <input type="checkbox" id="ArmsD3" name="ArmsD3" value="DSC">
+                        <label for="ArmsD3">Dumbbell Skull-Crushers</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Body Weight</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ArmsBW1" name="ArmsBW1" value="ST">
+                        <label for="ArmsBW1">Shoulder Taps</label>
+                        <br />
+                        <input type="checkbox" id="ArmsBW2" name="ArmsBW2" value="CU">
+                        <label for="ArmsBW2">Chin-Ups</label> 
+                        <br />
+                        <input type="checkbox" id="ArmsBW3" name="ArmsBW3" value="CGPU">
+                        <label for="ArmsBW3">Close Grip Push-ups</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Full Gym</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ArmsFG1" name="ArmsFG1" value="BOP">
+                        <label for="ArmsFG1">Barbell Overhead Press</label>
+                        <br />
+                        <input type="checkbox" id="ArmsFG2" name="ArmsFG2" value="DBC">
+                        <label for="ArmsFG2">Dumbbell Bicep Curls</label> 
+                        <br />
+                        <input type="checkbox" id="ArmsFG3" name="ArmsFG3" value="CRTE">
+                        <label for="ArmsFG3">Cable Rope Tricep Extensions</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Abs-->
+
+        <div>
+            <p style="font-weight: bold; font-size: 40px; margin-bottom: 10px;">Abs</p>
+            <div style="padding-left: 10px; margin-bottom: 0px;">
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Dumbbells</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="AbsD1" name="AbsD1" value="WSU">
+                        <label for="AbsD1">Weighted Sit-Ups</label>
+                        <br />
+                        <input type="checkbox" id="AbsD2" name="AbsD2" value="WRT">
+                        <label for="AbsD2">Weighted Russian Twist</label> 
+                        <br />
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Body Weight</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="AbsBW1" name="AbsBW1" value="BSU">
+                        <label for="AbsBW1">Bodyweight Sit-Ups</label>
+                        <br />
+                        <input type="checkbox" id="AbsBW2" name="AbsBW2" value="BP">
+                        <label for="AbsBW2">Bodyweight Plank</label> 
+                        <br />
+                        <input type="checkbox" id="AbsBW3" name="AbsBW3" value="BLL">
+                        <label for="AbsBW3">Bodyweight Leg Lifts</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Full Gym</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="AbsFG1" name="AbsFG1" value="CC">
+                        <label for="AbsFG1">Cable Crunches</label>
+                        <br />
+                        <input type="checkbox" id="AbsFG2" name="AbsFG2" value="WRT">
+                        <label for="AbsFG2">Weighted Russian Twist</label> 
+                        <br />
+                        <input type="checkbox" id="AbsFG3" name="AbsFG3" value="CCLR">
+                        <label for="AbsFG3">Captain's Chair Leg Raises</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Back-->
+
+        <div>
+            <p style="font-weight: bold; font-size: 40px; margin-bottom: 10px;">Back</p>
+            <div style="padding-left: 10px; margin-bottom: 0px;">
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Dumbbells</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="BackD1" name="BackD1" value="DLPO">
+                        <label for="BackD1">Dumbbell Lat Pull-Over</label>
+                        <br />
+                        <input type="checkbox" id="BackD2" name="BackD2" value="DSAR">
+                        <label for="BackD2">Dumbbell Single-Arm Row</label> 
+                        <br />
+                        <input type="checkbox" id="BackD3" name="BackD3" value="DS">
+                        <label for="BackD3">Dumbbell Shrugs</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Body Weight</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="BackBW1" name="BackBW1" value="PLU">
+                        <label for="BackBW1">Pull-Ups</label>
+                        <br />
+                        <input type="checkbox" id="BackBW2" name="BackBW2" value="S">
+                        <label for="BackBW2">Supermans</label> 
+                        <br />
+                        <input type="checkbox" id="BackBW3" name="BackBW3" value="SYR">
+                        <label for="BackBW3">Seated Y-Raises</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Full Gym</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="BackFG1" name="BackFG1" value="SLP">
+                        <label for="BackFG1">Seated Lat Pulldown</label>
+                        <br />
+                        <input type="checkbox" id="BackFG2" name="BackFG2" value="SCR">
+                        <label for="BackFG2">Seated Cable Row</label> 
+                        <br />
+                        <input type="checkbox" id="BackFG3" name="BackFG3" value="DS">
+                        <label for="BackFG3">Dumbbell Shrugs</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Chest-->
+
+        <div>
+            <p style="font-weight: bold; font-size: 40px; margin-bottom: 10px;">Chest</p>
+            <div style="padding-left: 10px; margin-bottom: 0px;">
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Dumbbells</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ChestD1" name="ChestD1" value="PSU">
+                        <label for="ChestD1">Push-ups</label>
+                        <br />
+                        <input type="checkbox" id="ChestD2" name="ChestD2" value="DBC">
+                        <label for="ChestD2">Incline Push-ups</label> 
+                        <br />
+                        <input type="checkbox" id="ChestD3" name="ChestD3" value="DSC">
+                        <label for="ChestD3">Dumbbell Skull-Crushers</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Body Weight</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ChestBW1" name="ChestBW1" value="PSU">
+                        <label for="ChestBW1">Push-ups</label>
+                        <br />
+                        <input type="checkbox" id="ChestBW2" name="ChestBW2" value="IPU">
+                        <label for="ChestBW2">Incline Push-ups</label> 
+                        <br />
+                        <input type="checkbox" id="ChestBW3" name="ChestBW3" value="DPU">
+                        <label for="ChestBW3">Decline Push-ups</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Full Gym</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="ChestFG1" name="ChestFG1" value="BBP">
+                        <label for="ChestFG1">Barbell Bench Press</label>
+                        <br />
+                        <input type="checkbox" id="ChestFG2" name="ChestFG2" value="IDCP">
+                        <label for="ChestFG2">Incline Dumbbell Chest Press</label> 
+                        <br />
+                        <input type="checkbox" id="ChestFG3" name="ChestFG3" value="SCCF">
+                        <label for="ChestFG3">Standing Cable Chest Flys</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Legs-->
+
+        <div>
+            <p style="font-weight: bold; font-size: 40px; margin-bottom: 10px;">Legs</p>
+            <div style="padding-left: 10px; margin-bottom: 0px;">
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Dumbbells</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="LegsD1" name="LegsD1" value="DSP">
+                        <label for="LegsD1">Dumbell Shoulder Press</label>
+                        <br />
+                        <input type="checkbox" id="LegsD2" name="LegsD2" value="DBC">
+                        <label for="LegsD2">Dumbell Bicep Curls</label> 
+                        <br />
+                        <input type="checkbox" id="LegsD3" name="LegsD3" value="DSC">
+                        <label for="LegsD3">Dumbell Skull-Crushers</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Body Weight</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="LegsBW1" name="LegsBW1" value="BWS">
+                        <label for="LegsBW1">Bodyweight Squats</label>
+                        <br />
+                        <input type="checkbox" id="LegsBW2" name="LegsBW2" value="BL">
+                        <label for="LegsBW2">Bodyweight Lunges</label> 
+                        <br />
+                        <input type="checkbox" id="LegsBW3" name="LegsBW3" value="BCR">
+                        <label for="LegsBW3">Bodyweight Calf Raises</label>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-weight: 500; font-size: 20px;">Full Gym</p>
+                    <div style="padding-left: 20px;">
+                        <input type="checkbox" id="LegsFG1" name="LegsFG1" value="BS">
+                        <label for="LegsFG1">Barbell Squats</label>
+                        <br />
+                        <input type="checkbox" id="LegsFG2" name="LegsFG2" value="RD">
+                        <label for="LegsFG2">Romanian Deadlifts</label> 
+                        <br />
+                        <input type="checkbox" id="LegsFG3" name="LegsFG3" value="WCR">
+                        <label for="LegsFG3">Weighted Calf Raises</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="submit" value="Submit" style="height: 30px; width: 63px;">
+    </form>
+</div>
+{% endblock %}

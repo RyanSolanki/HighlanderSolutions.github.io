@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from .models import Note
 from . import db
 import json
+import sqlite3
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 views = Blueprint('views', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
@@ -33,3 +34,13 @@ def delete_note():
             db.session.commit()
             
     return jsonify({}) #return an empty response because we have to return something
+
+@views.route('/workouts', methods=['GET'])
+def workouts():
+    #Might have to remove the stuff below
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    print("opened the database successfully")
+    cur = conn.cursor()
+    
+    return render_template('workouts.html', user=current_user)

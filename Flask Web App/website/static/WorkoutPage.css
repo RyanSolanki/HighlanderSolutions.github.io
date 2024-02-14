@@ -1,0 +1,21 @@
+/* Add your dark theme styles here */
+body {
+  background-color: #222; /* Dark background color */
+  color: #fff; /* Light text color */
+}
+
+.modal-content {
+  background-color: #333; /* Dark modal background color */
+  color: #fff; /* Light text color */
+}
+
+.modal-body {
+  background-color: #333; /* Dark modal background color */
+  color: #fff; /* Light text color */
+}
+
+/* Adjust text color of list items in modal */
+.modal-body .list-group-item {
+  color: #fff; /* Light text color */
+  background-color: transparent; /* Transparent background to prevent obscuring text */
+}

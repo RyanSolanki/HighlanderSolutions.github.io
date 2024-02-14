@@ -1,21 +1,9 @@
-import os
-from flask import Blueprint,Flask, jsonify, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from . import db
-from flask import Blueprint, render_template, request, flash, redirect, url_for # Import the Blueprint class from the flask package
+from .models import Workouts
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 WorkoutPage = Blueprint('WorkoutPage', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
-
-class Workouts(db.Model):
-    __tablename__ = 'Workouts'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, name='Name')
-    muscle_group = db.Column(db.String(100), nullable=False, name='Muscle Group')
-    equip_type = db.Column(db.String(100), nullable=False, name='EquipType')  
-
-    def __repr__(self):
-        return f"Workouts(name={self.name}, muscle_group={self.muscle_group}, equip_type={self.equip_type})"
     
 @WorkoutPage.route('/exercises')
 def get_exercises():

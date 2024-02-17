@@ -15,13 +15,13 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(150))
     notes = db.relationship('Note')
 
-class Workouts(db.Model):
-    __tablename__ = 'Workouts'
+class Exercises(db.Model):
+    __tablename__ = 'Exercises'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, name='Name')
     muscleGroup = db.Column(db.String(100), nullable=False, name='Muscle Group')
     equipType = db.Column(db.String(100), nullable=False, name='EquipType')  
 
     def __repr__(self):
-        return (f"Workouts(name={self.name}, muscleGroup={self.muscleGroup}," + 
+        return (f"Exercises(name={self.name}, muscleGroup={self.muscleGroup}," + 
                 f"equipType={self.equipType})")

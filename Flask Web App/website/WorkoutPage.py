@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from . import db
-from .models import Workouts
+from .models import Exercises
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 # The first argument is the name of the blueprint, and the second argument is the name of the module
@@ -9,7 +9,7 @@ WorkoutPage = Blueprint('WorkoutPage', __name__)
     
 @WorkoutPage.route('/exercises')
 def get_exercises():
-    exercises = Workouts.query.all()
+    exercises = Exercises.query.all()
     exercisesList = [{'name': exercise.name, 'muscleGroup': exercise.muscleGroup, 'equipType': 
                        exercise.equipType} for exercise in exercises]
     return jsonify(exercisesList)
@@ -21,8 +21,8 @@ def workoutPage():
         muscleGroup = request.form['muscleGroup']
         equipType = request.form['equipType']
 
-        workout = Workouts(name=name, muscleGroup=muscleGroup, equipType=equipType)
-        db.session.add(workout)
+        exercises = Exercises(name=name, muscleGroup=muscleGroup, equipType=equipType)
+        db.session.add(exercises)
         db.session.commit()
 
         return redirect(url_for('WorkoutPage'))

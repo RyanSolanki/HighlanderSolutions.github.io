@@ -8,17 +8,17 @@ WorkoutPage = Blueprint('WorkoutPage', __name__) # The first argument is the nam
 @WorkoutPage.route('/exercises')
 def get_exercises():
     exercises = Workouts.query.all()
-    exercises_list = [{'name': exercise.name, 'muscle_group': exercise.muscle_group, 'equip_type': exercise.equip_type} for exercise in exercises]
-    return jsonify(exercises_list)
+    exercisesList = [{'name': exercise.name, 'muscleGroup': exercise.muscleGroup, 'equipType': exercise.equipType} for exercise in exercises]
+    return jsonify(exercisesList)
 
 @WorkoutPage.route('/WorkoutPage', methods=['GET','POST'])
-def workoutPage():
+def workout_page():
     if request.method == 'POST':
         name = request.form['name']
-        muscle_group = request.form['muscle_group']
-        equip_type = request.form['equip_type']
+        muscleGroup = request.form['muscle_group']
+        equipType = request.form['equip_type']
 
-        workout = Workouts(name=name, muscle_group=muscle_group, equip_type=equip_type)
+        workout = Workouts(name=name, muscleGroup=muscleGroup, equipType=equipType)
         db.session.add(workout)
         db.session.commit()
 

@@ -35,7 +35,7 @@ def logout():
 def sign_up():
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('firstName')
+        firstName = request.form.get('first_name')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
@@ -45,7 +45,7 @@ def sign_up():
             flash('Email already in use.', category='error')
         elif len(email) < 4:
             flash('Email must be longer than 3 characters!', category='error')
-        elif len(first_name) < 2:
+        elif len(firstName) < 2:
             flash('First Name must be at least 2 characters long!', category='error')
         elif password1 != password2:
             flash('Passwords do not match!', category='error')
@@ -54,10 +54,10 @@ def sign_up():
         else:
             # add user to database
             db.create_all()
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(password1, method ='pbkdf2:sha256'))
-            db.session.add(new_user)
+            newUser = User(email=email, firstName=firstName, password=generate_password_hash(password1, method ='pbkdf2:sha256'))
+            db.session.add(newUser)
             db.session.commit()
-            login_user(new_user, remember=True)
+            login_user(newUser, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
 

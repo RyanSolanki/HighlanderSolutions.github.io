@@ -16,11 +16,11 @@ $(document).ready(function() {
     
         // Group workouts by muscle group
         $.each(data, function(index, workout) {
-            if (!workoutGroups[workout.muscle_group]) {
-                workoutGroups[workout.muscle_group] = [];
-                selectedWorkoutsByMuscleGroup[workout.muscle_group] = []; // Initialize an empty array for this muscle group
+            if (!workoutGroups[workout.muscleGroup]) {
+                workoutGroups[workout.muscleGroup] = [];
+                selectedWorkoutsByMuscleGroup[workout.muscleGroup] = []; // Initialize an empty array for this muscle group
             }
-            workoutGroups[workout.muscle_group].push(workout);
+            workoutGroups[workout.muscleGroup].push(workout);
         });
 
         // Append workouts grouped by muscle group to the modal list
@@ -36,7 +36,7 @@ $(document).ready(function() {
     });
 
     // Function to add workout to the workout page
-    function addWorkoutToPage() {
+    function add_workout_to_page() {
         // Clear existing workouts on the page
         $('#workoutPage').empty();
 
@@ -63,7 +63,7 @@ $(document).ready(function() {
     // Handle click event on workout items in the modal list
     $(document).on('click', '#workoutList li', function() {
         var workout = $(this).data('workout');
-        var index = selectedWorkoutsByMuscleGroup[workout.muscle_group].findIndex(function(item) {
+        var index = selectedWorkoutsByMuscleGroup[workout.muscleGroup].findIndex(function(item) {
             return item.name === workout.name;
         });
         if (index === -1) {
@@ -71,7 +71,7 @@ $(document).ready(function() {
         } else {
             selectedWorkoutsByMuscleGroup[workout.muscle_group].splice(index, 1);
         }
-        addWorkoutToPage();
+        add_workout_to_page();
     });
 
 
@@ -81,7 +81,7 @@ $(document).ready(function() {
     // Handle click event on remove buttons
     $(document).on('click', '.remove-workout', function() {
         var workout = $(this).data('workout');
-        var muscleGroup = workout.muscle_group;
+        var muscleGroup = workout.muscleGroup;
         var index = selectedWorkoutsByMuscleGroup[muscleGroup].findIndex(function(item) {
             return item.name === workout.name;
         });
@@ -89,7 +89,7 @@ $(document).ready(function() {
             delete savedExerciseInfo[workout.name];
             selectedWorkoutsByMuscleGroup[muscleGroup].splice(index, 1);
         }
-        addWorkoutToPage(); // Update the workout page after removing the workout
+        add_workout_to_page(); // Update the workout page after removing the workout
     });
 
     // Handle click event on info buttons

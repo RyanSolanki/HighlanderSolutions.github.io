@@ -16,8 +16,8 @@ def home():
         if len(note) < 1:
             flash('Note is too short!', category='error')
         else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
+            newNote = Note(data=note, user_id=current_user.id)
+            db.session.add(newNote)
             db.session.commit()
             flash('Note added!', category='success')
     return render_template("home.html", user=current_user) # This is the function that will be triggered when the URL is visited

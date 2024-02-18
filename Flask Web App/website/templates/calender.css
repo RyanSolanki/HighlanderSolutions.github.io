@@ -8,7 +8,7 @@ body {
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
-#calendar-container {
+#calendarContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +35,7 @@ th {
 td:hover {
     background-color: #ddd;
 }
-.bg-info {
+.bgInfo {
     background-color: #2196F3;
     color: white;
 }

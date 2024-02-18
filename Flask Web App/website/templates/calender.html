@@ -8,12 +8,14 @@
 </head>
 <body>
     <h2>Workout</h2>
-    <div id="calendar-container">
-        <p id="selected-date"></p>
+    <div id="calendarContainer">
+        <p id="selectedDate"></p>
         <p id="demo"></p>
-        <select id="month" onchange="loadCalendar()"></select>
-        <select id="year" onchange="loadCalendar()"></select>
-        <table id="calendar">
+        <div style="display: flex; justify-content: space-between; width: 200px;">
+            <select id="monthElement" onchange="load_calendar()"></select>
+            <select id="yearElement" onchange="load_calendar()"></select>
+        </div>
+        <table id="calendarElement">
             <tr>
                 <th>Sun</th>
                 <th>Mon</th>
@@ -24,18 +26,14 @@
                 <th>Sat</th>
             </tr>
         </table>
+        <button id="scheduleWorkout">Schedule Workout</button>
     </div>
-    <select id="exercises">
-        <option value="push-ups">Push-ups</option>
-        <option value="sit-ups">Sit-ups</option>
-        <option value="squats">Squats</option>
+    <select id="exercisesElement">
+        <option value="Push Ups">Push-ups</option>
+        <option value="Sit Ups">Sit-ups</option>
+        <option value="Squats">Squats</option>
         <!-- Add more exercises as needed -->
     </select>
-    
-
-    
     <script src="calender.js"></script>
-
-
 </body>
 </html>

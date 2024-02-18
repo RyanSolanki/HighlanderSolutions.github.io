@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", function() {
     var today = new Date();
-    var monthElement = document.getElementById("month");
-    var yearElement = document.getElementById("year");
-    var calendar = document.getElementById("calendar");
+    var monthElement = document.getElementById("monthElement");
+    var yearElement = document.getElementById("yearElement");
+    var calendarElement = document.getElementById("calendarElement");
     var selectedYear;
     var selectedMonth;
     var selectedDate;
 
     for (let i = 0; i < 12; i++) {
-        let option = document.createElement("option");
-        option.value = i;
-        option.text = new Date(today.getFullYear(), i, 1).toLocaleString('default', { month: 'long' });
+        let optionElement = document.createElement("option");
+        optionElement.value = i;
+        optionElement.text = new Date(today.getFullYear(), i, 1).toLocaleString('default', { month: 'long' });
         if (i === today.getMonth()) {
-            option.selected = true;
+            optionElement.selected = true;
         }
-        monthElement.add(option);
+        monthElement.add(optionElement);
     }
 
     for (let i = today.getFullYear() - 10; i <= today.getFullYear() + 10; i++) {
-        let option = document.createElement("option");
-        option.value = i;
-        option.text = i;
+        let optionElement = document.createElement("option");
+        optionElement.value = i;
+        optionElement.text = i;
         if (i === today.getFullYear()) {
-            option.selected = true;
+            optionElement.selected = true;
         }
-        yearElement.add(option);
+        yearElement.add(optionElement);
     }
 
-    function loadCalendar() {
+    function load_calendar() {
         selectedMonth = monthElement.value;
         selectedYear = yearElement.value;
         var month = monthElement.value;
@@ -35,45 +35,45 @@ document.addEventListener("DOMContentLoaded", function() {
         var firstDay = (new Date(year, month)).getDay();
         var daysInMonth = 32 - new Date(year, month, 32).getDate();
         var date = 1;
-        calendar.innerHTML = "";
+        calendarElement.innerHTML = "";
 
         for (let i = 0; i < 6; i++) {
-            var row = document.createElement("tr");
+            var rowElement = document.createElement("tr");
 
             for (let j = 0; j < 7; j++) {
                 if (i === 0 && j < firstDay) {
-                    let cell = document.createElement("td");
+                    let cellElement = document.createElement("td");
                     let cellText = document.createTextNode("");
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
+                    cellElement.appendChild(cellText);
+                    rowElement.appendChild(cellElement);
                 } else if (date > daysInMonth) {
                     break;
                 } else {
-                    let cell = document.createElement("td");
-                    cell.id = date;
+                    let cellElement = document.createElement("td");
+                    cellElement.id = date;
                     let cellText = document.createTextNode(date);
                     if (date === today.getDate() && year == today.getFullYear() && month == today.getMonth()) {
-                        cell.classList.add("bg-info");
+                        cellElement.classList.add("bgInfo");
                     }
-                    cell.appendChild(cellText);
-                    row.appendChild(cell);
+                    cellElement.appendChild(cellText);
+                    rowElement.appendChild(cellElement);
                     date++;
                 }
             }
-            calendar.appendChild(row);
+            calendarElement.appendChild(rowElement);
         }
     }
 
-    loadCalendar();
+    load_calendar();
 
-    monthElement.addEventListener("change", loadCalendar);
-    yearElement.addEventListener("change", loadCalendar);
+    monthElement.addEventListener("change", load_calendar);
+    yearElement.addEventListener("change", load_calendar);
 
-    $("#calendar").on("click", "td", function() {
-        var selectedExercise = $("#exercises").val();
+    $("#calendarElement").on("click", "td", function() {
+        var selectedExercise = $("#exercisesElement").val();
         var selectedDate = $(this).text(); // get the text of the clicked cell
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-        $("#selected-date").text(formattedDate + ", Exercise: " + selectedExercise);
+        $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });
 });

@@ -40,7 +40,7 @@ class DbAccessSingleton(object):
     
     # .custom_query() has only one input: (text)
     # I made a separate search function for this under the idea that we might need to input more complicated queries outside of the format presented within .search() 
-    # This function will not work for custom
+    # This function will not work for custom inserts
     
     # This call to custom_query is essentially the same as the second example above
     # newclass.custom_query("SELECT * FROM Exercises WHERE Name = 'Push-ups'")

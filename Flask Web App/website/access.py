@@ -55,7 +55,7 @@ class DbAccessSingleton(object):
     
     # .insert has 2 inputs: (table, values)
     
-    # This call to insert is inputting a new entry for the SavedWorkouts table
+    # This call is to insert is inputting a new entry in the database
     # newclass.insert('SavedWorkouts', "(3, 'a123', 'My Workout', 'Push-ups', 2, 'Until failure', 'None')")
     def insert(self, table, values):
         # Connect to database and add cursor
@@ -65,4 +65,29 @@ class DbAccessSingleton(object):
         # Run insert query
         cur.execute(f"INSERT INTO {table} VALUES {values}")
         con.commit()
+
+
+    # This call is to update an existing row in the database with new values
+    #*********************** EXAMPLE FUNCTION CALL *************************#
+    # # Specify the update parameters
+    # table_name = "SavedWorkouts"
+    # set_values = 'NumberOfSets = ?, NumberOfReps = ?, Weights = ?'
+    # where_condition = 'UserID = ? AND WorkoutName = ? AND ExerciseName = ?'
+    # new_sets = 3
+    # new_reps = "8, 7, 6"
+    # new_weights = "225, 205, 185"
+    # username = "ryansolanki"
+    # workout_name = "Ryan Chest Day"
+    # exercise_name = "Bench Press"
+
+    # # Update the record in the database
+    # db_instance.update(table_name, set_values, where_condition, (new_sets, new_reps, new_weights, username, workout_name, exercise_name))
+        
+    def update(self, table, set_values, where_condition,values):
+        # Connect to database and add cursor using the with statement
+        with sq.connect('Flask Web App/instance/database.db') as con:
+            # Run update query with parameterized query
+            cur = con.cursor()
+            cur.execute(f"UPDATE {table} SET {set_values} WHERE {where_condition}", values)
+            con.commit()
        

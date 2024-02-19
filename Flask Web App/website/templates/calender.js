@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $("#calendarElement").on("click", "td", function() {
         var selectedExercise = $("#exercisesElement").val();
-        var selectedDate = $(this).text(); // get the text of the clicked cell
+        var selectedDate = $(this).text();
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);

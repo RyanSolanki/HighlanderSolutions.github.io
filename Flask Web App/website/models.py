@@ -25,3 +25,21 @@ class Exercises(db.Model):
     def __repr__(self):
         return (f"Exercises(name={self.name}, muscleGroup={self.muscleGroup}," + 
                 f"equipType={self.equipType})")
+    
+
+class UserWorkout():
+    def __init__(self, workoutName):
+        self.workoutName = workoutName
+        self.sets = 0
+        self.reps = []
+        self.weight = []
+
+    def updateSets(self, sets):
+        self.sets = sets
+
+    def updateReps(self, reps):
+        self.reps = reps
+
+    def updateWeight(self, weight):
+        self.weight = weight
+    

@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="calender.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='calender.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        // Fetch exercises when the page loads
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/exercises')
+                .then(response => response.json())
+                .then(data => {
+                    let selectElement = document.getElementById('exercisesElement');
+                    data.exercises.forEach(exercise => {
+                        let optionElement = document.createElement('option');
+                        optionElement.value = exercise.name;
+                        optionElement.text = exercise.name;
+                        selectElement.add(optionElement);
+                    });
+                });
+        });
+    </script>
 </head>
 <body>
     <h2>Workout</h2>
@@ -28,11 +44,8 @@
         </table>
         <button id="scheduleWorkout">Schedule Workout</button>
     </div>
-    <select id="exercisesElement">
-        <option value="Push Ups">Push-ups</option>
-        <option value="Sit Ups">Sit-ups</option>
-        <option value="Squats">Squats</option>
+    <select id="exercisesElement"></select>
     </select>
-    <script src="calender.js"></script>
+    <script src="{{ url_for('static', filename='calender.js') }}"></script>
 </body>
 </html>

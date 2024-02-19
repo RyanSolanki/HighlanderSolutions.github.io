@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 
+
 # Database object
 db = SQLAlchemy()
 DB_NAME = "database.db"
@@ -17,11 +18,13 @@ def create_app():
     from .views import views
     from .auth import auth
     from .WorkoutPage import WorkoutPage
+    from .calender import calender
+
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(WorkoutPage, url_prefix='/')
-    
+    app.register_blueprint(calender, url_prefix='/')
 
     from .models import User, Note
     

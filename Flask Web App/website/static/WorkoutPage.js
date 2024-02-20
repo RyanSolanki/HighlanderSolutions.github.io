@@ -56,7 +56,8 @@ $(document).ready(function() {
                     exerciseItem.append(' '); // Add space
                     exerciseItem.append(removeButton);
                     exerciseItem.append(' '); // Add space
-                    infoButton.data('exercise', exercise); // Store exercise data with the info button
+                    // Store exercise data with the info button
+                    infoButton.data('exercise', exercise); 
                     // Store exercise data with the remove button
                     removeButton.data('exercise', exercise); 
                     $('#workoutPage').append(exerciseItem);

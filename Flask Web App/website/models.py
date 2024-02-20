@@ -19,9 +19,26 @@ class Exercises(db.Model):
     __tablename__ = 'Exercises'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, name='Name')
-    muscleGroup = db.Column(db.String(100), nullable=False, name='Muscle Group')
+    muscleGroup = db.Column(db.String(100), nullable=False, name='MuscleGroup')
     equipType = db.Column(db.String(100), nullable=False, name='EquipType')  
 
     def __repr__(self):
         return (f"Exercises(name={self.name}, muscleGroup={self.muscleGroup}," + 
                 f"equipType={self.equipType})")
+    
+class UserWorkout():
+    def __init__(self, workoutName):
+        self.workoutName = workoutName
+        self.sets = 0
+        self.reps = []
+        self.weight = []
+
+    def updateSets(self, sets):
+        self.sets = sets
+
+    def updateReps(self, reps):
+        self.reps = reps
+
+    def updateWeight(self, weight):
+        self.weight = weight
+    

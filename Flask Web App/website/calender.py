@@ -1,6 +1,6 @@
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for
+from . import db
 from .models import Exercises
-from flask import jsonify
-from flask import Blueprint, render_template
 
 DATABASE = '/path/to/your/database.db'
 

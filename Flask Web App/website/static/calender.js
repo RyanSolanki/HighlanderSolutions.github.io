@@ -76,8 +76,24 @@ document.addEventListener("DOMContentLoaded", function() {
     monthElement.addEventListener("change", load_calendar);
     yearElement.addEventListener("change", load_calendar);
 
+    // Fetch exercises when the page loads
+    console.log("Fetching exercises");
+    fetch('/exercises')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Exercises fetched", data);
+            let selectElement = document.getElementById('exercisesDropdown');
+            data.forEach(exercise => {
+                let optionElement = document.createElement('option');
+                optionElement.value = exercise.name;
+                optionElement.text = exercise.name;
+                selectElement.add(optionElement);
+            });
+        });
+    
+
     $("#calendarElement").on("click", "td", function() {
-        var selectedExercise = $("#exercisesElement").val();
+        var selectedExercise = $("#exercisesDropdown").val();
         var selectedDate = $(this).text();
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });

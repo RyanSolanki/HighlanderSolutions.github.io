@@ -67,4 +67,4 @@ def sign_up():
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template("Sign_up.html", user=current_user) # This is the function that will be triggered when the URL is visited
+    return render_template("SignUp.html", user=current_user) # This is the function that will be triggered when the URL is visited

@@ -20,7 +20,7 @@ def home():
             db.session.add(new_note)
             db.session.commit()
             flash('Note added!', category='success')
-    return render_template("home.html", user=current_user) # This is the function that will be triggered when the URL is visited
+    return render_template("Home.html", user=current_user) # This is the function that will be triggered when the URL is visited
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():

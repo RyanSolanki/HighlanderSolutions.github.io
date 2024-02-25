@@ -1,14 +1,19 @@
-{% extends "Base.html" %}
+{% extends "base.html" %}
 {% block title %}Login{% endblock %}
 
+{% block additional_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Login.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DarkTheme.css') }}">
+{% endblock %}
+
 {% block content %}
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-image: url('{{ url_for('static', filename='images/login.jpg') }}'); background-size: cover; background-position: center;">
-    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; background-color: #8d8b8b; width: 600px">
-        <form method="post" style="text-align: center;">
+<div class="login-container">
+    <div class="login-box">
+        <form method="post" class="login-form">
             <h3>Login</h3>
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input 
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
                     type="email" 
                     class="form-control" 
                     id="email" 

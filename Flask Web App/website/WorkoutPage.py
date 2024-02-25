@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from . import db
 from .models import Exercises
+from flask_login import current_user
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 # The first argument is the name of the blueprint, and the second argument is the name of the module
@@ -27,4 +28,4 @@ def workoutPage():
 
         return redirect(url_for('WorkoutPage'))
 
-    return render_template('WorkoutPage.html')
+    return render_template('WorkoutPage.html', user=current_user)

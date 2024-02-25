@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='calender.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</head>
+<body>
+    <h2>Workout</h2>
+    <div id="calendarContainer">
+        <p id="selectedDate"></p>
+        <p id="demo"></p>
+        <div style="display: flex; justify-content: space-between; width: 200px;">
+            <select id="monthElement" onchange="load_calendar()"></select>
+            <select id="yearElement" onchange="load_calendar()"></select>
+        </div>
+        <table id="calendarElement">
+            <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+            </tr>
+        </table>
+        <button id="scheduleWorkout">Schedule Workout</button>
+    </div>
+    <!-- Dropdown box for exercises -->
+    <select id="exercisesDropdown"></select>
+    <script src="{{ url_for('static', filename='calender.js') }}"></script>
+</body>
+</html>

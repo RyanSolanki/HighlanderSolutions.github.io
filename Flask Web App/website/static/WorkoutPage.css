@@ -1,16 +1,16 @@
 /* Add your dark theme styles here */
 body {
-  background-color: #222; /* Dark background color */
+  background-color: #2b2b2b; /* Dark background color */
   color: #fff; /* Light text color */
 }
 
 .modal-content {
-  background-color: #333; /* Dark modal background color */
+  background-color: #444; /* Dark modal background color */
   color: #fff; /* Light text color */
 }
 
 .modal-body {
-  background-color: #333; /* Dark modal background color */
+  background-color: #444; /* Dark modal background color */
   color: #fff; /* Light text color */
 }
 

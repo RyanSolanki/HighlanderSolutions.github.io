@@ -1,12 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='calender.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
+    <div style="text-align: center;">
     <h2>Workout</h2>
     <div id="calendarContainer">
         <p id="selectedDate"></p>
@@ -28,8 +30,14 @@
         </table>
         <button id="scheduleWorkout">Schedule Workout</button>
     </div>
-    <!-- Dropdown box for exercises -->
     <select id="exercisesDropdown"></select>
-    <script src="{{ url_for('static', filename='calender.js') }}"></script>
 </body>
 </html>
+{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Calender.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DarkTheme.css') }}">
+{% endblock %}
+{% block javascript %}
+    <script src="{{ url_for('static', filename='Calender.js') }}"></script>
+{% endblock %}

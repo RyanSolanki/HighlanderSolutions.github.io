@@ -1,11 +1,17 @@
 {% extends "Base.html" %}
-{% block title %}UIPage{% endblock %}
+{% block title %}Recommender{% endblock %}
 
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Recommender.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DarkTheme.css') }}">
+{% endblock %}
+
+<!-- This is just sample code. Someone add code to make it a recommender--> 
 {% block content %}
-<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f5f5f5;">
-    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px; background-color: #8d8b8b; width: 600px">
+<div>
+    <div>
         <form method="post" style="text-align: center;">
-            <h3>UIPage</h3>
+            <h3>Recommender</h3>
             <div class="form-group">
                 <label for="MuscleGroup">Muscle Group</label>
                 <select class="form-control" id="MuscleGroup" name="MuscleGroup">

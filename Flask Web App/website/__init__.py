@@ -17,13 +17,18 @@ def create_app():
     from .views import views
     from .auth import auth
     from .WorkoutPage import WorkoutPage
+    from .calender import calender
+    from .recommender import RecommenderBP
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(WorkoutPage, url_prefix='/')
+    app.register_blueprint(calender, url_prefix='/')
+    app.register_blueprint(RecommenderBP, url_prefix='/')
     
 
     from .models import User, Note
+
     
     create_database(app)
     

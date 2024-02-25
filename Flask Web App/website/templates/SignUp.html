@@ -1,6 +1,10 @@
 {% extends "Base.html" %} 
 {% block title %}Sign Up{% endblock %}
 
+{% block additional_css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DarkTheme.css') }}">
+
+{% endblock %}
 {% block content %}
     <form method="post">
         <h3 align="center">Sign Up</h3>

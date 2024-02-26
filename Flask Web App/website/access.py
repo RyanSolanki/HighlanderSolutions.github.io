@@ -26,15 +26,12 @@ class DbAccessSingleton(object):
     # newclass.search('Exercises', '*', 'Name', "'Push-ups'")
     
     # It is to note that searches looking for a specific text entry need to have double quotes
-    def search(self, table, column, query_col, query):
+    def search(self, query):
         # Connect to database and add cursor
         con = sq.connect('Flask Web App/instance/database.db')
         cur = con.cursor()
     
-        if query is None: # Select a column
-            return cur.execute(f"SELECT {column} FROM {table}").fetchall()
-        else: # Specific Query
-            return cur.execute(f"SELECT {column} FROM {table} WHERE {query_col} = {query}").fetchall()
+        return cur.execute(query).fetchall()
     
     
     

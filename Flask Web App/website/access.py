@@ -91,7 +91,6 @@ class DbAccessSingleton(object):
         
     def update(self, table, set_values, where_condition,values):
         # Connect to database and add cursor using the with statement
-        # Connect to database and add cursor using the with statement
         with sq.connect('Flask Web App/instance/database.db') as con:
             # Run update query with parameterized query
             cur = con.cursor()

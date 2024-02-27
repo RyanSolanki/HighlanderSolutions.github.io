@@ -32,9 +32,12 @@ class DbAccessSingleton(object):
         cur = con.cursor()
     
         if query is None: # Select a column
-            return cur.execute(f"SELECT {column} FROM {table}").fetchall()
+            result = cur.execute(f"SELECT {column} FROM {table}").fetchall()
         else: # Specific Query
-            return cur.execute(f"SELECT {column} FROM {table} WHERE {query_col} = {query}").fetchall()
+            result = cur.execute(f"SELECT {column} FROM {table} WHERE {query_col} = {query}").fetchall()
+        
+        con.close()  # Close the connection
+        return result
     
     
     
@@ -49,7 +52,9 @@ class DbAccessSingleton(object):
         con = sq.connect('Flask Web App/instance/database.db')
         cur = con.cursor()
         
-        return cur.execute(text).fetchall()
+        result = cur.execute(text).fetchall()
+        con.close()  # Close the connection
+        return result
     
     
     
@@ -65,6 +70,7 @@ class DbAccessSingleton(object):
         # Run insert query
         cur.execute(f"INSERT INTO {table} VALUES {values}")
         con.commit()
+        con.close()  # Close the connection
 
 
     # This call is to update an existing row in the database with new values
@@ -85,9 +91,11 @@ class DbAccessSingleton(object):
         
     def update(self, table, set_values, where_condition,values):
         # Connect to database and add cursor using the with statement
+        # Connect to database and add cursor using the with statement
         with sq.connect('Flask Web App/instance/database.db') as con:
             # Run update query with parameterized query
             cur = con.cursor()
             cur.execute(f"UPDATE {table} SET {set_values} WHERE {where_condition}", values)
             con.commit()
+        con.close()  # Close the connection
        

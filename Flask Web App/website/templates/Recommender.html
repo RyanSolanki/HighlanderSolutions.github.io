@@ -6,11 +6,10 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='DarkTheme.css') }}">
 {% endblock %}
 
-<!-- This is just sample code. Someone add code to make it a recommender--> 
 {% block content %}
 <div>
     <div>
-        <form method="post" style="text-align: center;">
+        <form method="post" action="{{ url_for('recommender') }}" style="text-align: center;">
             <h3>Recommender</h3>
             <div class="form-group">
                 <label for="MuscleGroup">Muscle Group</label>

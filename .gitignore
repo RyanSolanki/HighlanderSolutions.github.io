@@ -1,2 +1,3 @@
 Flask Web App/instance/database.db
 *.pyc
+Flask Web App/website/__pycache__/*

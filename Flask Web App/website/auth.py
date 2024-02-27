@@ -3,6 +3,9 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+# from .access import DbAccessSingleton
+
+# db_instance = DbAccessSingleton.get_instance()
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 auth = Blueprint('auth', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
@@ -68,3 +71,27 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("SignUp.html", user=current_user) # This is the function that will be triggered when the URL is visited
+
+# @auth.route('/Recommender', methods=['GET', 'POST'])
+# def recommender():
+#     if request.method == 'POST':
+#         muscle_group = request.form.get('MuscleGroup')
+#         equipment = request.form.get('Equipment')
+
+#         recommendation = fetch_recommendation(muscle_group, equipment)
+
+#         return redirect(url_for('auth.result', recommendation=recommendation))
+#     else:
+#         return render_template('Recommender.html')
+
+# def fetch_recommendation(muscle_group, equipment):
+#     # Use the search method from DbAccessSingleton to fetch data from the database
+#     result = db_instance.search(f"SELECT * FROM Exercises WHERE EquipType = {equipment} AND MuscleGroup = {muscle_group}")
+
+#     # Return the recommendation if found, otherwise return a default message
+#     return result[0] if result else "No workout recommendation found for the selected Muscle Group and Equipment."
+
+# @auth.route('/Result')
+# def result():
+#     recommendation = request.args.get('recommendation', '')
+#     return render_template('Result.html', recommendation=recommendation)

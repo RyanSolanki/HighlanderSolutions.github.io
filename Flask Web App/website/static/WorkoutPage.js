@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    console.log(preSelectedExercises)
+    if (preSelectedExercises != null){
+        preSelectedExercises = JSON.parse(preSelectedExercises.replace(/'/g, '"'));
+    }
     // Show the workoutPage div when the Add Exercise button is clicked
     // Hide the modal dialog when the page loads
     $('#addExerciseModal').modal('hide');
@@ -25,8 +29,20 @@ $(document).ready(function() {
                 // Initialize an empty array for this muscle group
                 selectedExercisesByMuscleGroup[exercise.muscleGroup] = []; 
             }
+            if(preSelectedExercises != null){
+                for (let i = 0; i < preSelectedExercises.length; i++) {
+                    if (preSelectedExercises[i] == exercise.name) {
+                        if (!selectedExercisesByMuscleGroup[exercise.muscleGroup].some(item => item.name === exercise.name)) {
+                            selectedExercisesByMuscleGroup[exercise.muscleGroup].push(exercise);
+                        }
+                    }
+                }
+            }
             exerciseGroups[exercise.muscleGroup].push(exercise);
         });
+        if(preSelectedExercises != null){
+            add_exercise_to_page()
+        }
 
         // Append exercises grouped by muscle group to the modal list
         var exerciseList = $('#exerciseList');

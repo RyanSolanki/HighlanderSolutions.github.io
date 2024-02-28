@@ -1,12 +1,20 @@
-{% extends "Base.html" %}
+{% extends "base.html" %}
 {% block content %}
     <div class="container">
         <h1 class="app-title">Recommended Workout</h1>
+        <!-- Text field for workout name -->
+        <div class="form-group">
+            <label for="workoutName">Workout Name:</label>
+            <!-- Limiting the width of the text field -->
+            <input type="text" id="workoutName" name="workoutName" placeholder="Enter Workout Name">
+            <p id="workoutNameError" style="color: red; display: none;">Please enter a workout name</p>
+        </div>
         <button id="addExerciseButton" class="btn btn-primary">Add Exercise</button>
         <p class="app-title">Current Exercises</p>
         <div id="workoutPage">
             <!-- Workouts will be dynamically added here -->
         </div>
+        <button id="submitWorkoutButton" class="btn btn-success float-right">Submit Workout</button>
     </div>
 
     <!-- Modal -->
@@ -28,7 +36,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 {% block additional_css %}
     <link rel="stylesheet" href="{{ url_for('static', filename='WorkoutPage.css') }}"> 
@@ -42,5 +49,5 @@
     <script>
         var preSelectedExercises = "{{ recommendation | safe }}";
     </script>
-    <script src="{{ url_for('static', filename='Recommendation.js') }}"></script>
+    <script src="{{ url_for('static', filename='WorkoutPage.js') }}"></script>
 {% endblock %}

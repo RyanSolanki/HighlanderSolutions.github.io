@@ -1,9 +1,7 @@
 {% extends "Base.html" %}
-{% block title %}Recommender Result{% endblock %}
 {% block content %}
     <div class="container">
         <h1 class="app-title">Recommended Workout</h1>
-        <ul id="exerciseList" class="list-group">
         <button id="addExerciseButton" class="btn btn-primary">Add Exercise</button>
         <p class="app-title">Current Exercises</p>
         <div id="workoutPage">
@@ -41,11 +39,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Pre-select exercises based on the recommendation array -->
-    <!-- <script>
-        // Pass the recommendation array to the JavaScript variable
-        var preSelectedExercises = {{ recommendation }};
-        console.log("Pre-selected Exercises:", preSelectedExercises);
-    </script> -->
     <script>
         var preSelectedExercises = "{{ recommendation | safe }}";
     </script>

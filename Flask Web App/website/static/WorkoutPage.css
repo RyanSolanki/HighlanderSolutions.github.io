@@ -19,3 +19,7 @@ body {
   color: #fff; /* Light text color */
   background-color: transparent; /* Transparent background to prevent obscuring text */
 }
+
+.limited-width {
+  width: 300px; /* Adjust the width as needed */
+}

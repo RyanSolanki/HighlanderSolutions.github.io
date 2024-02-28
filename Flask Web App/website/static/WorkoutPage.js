@@ -7,6 +7,10 @@ $(document).ready(function() {
     $('#addExerciseButton').click(function() {
         $('#addExerciseModal').modal('show');
     });
+
+    // Hide the modal dialog when the Close button is clicked
+    toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
+    
     // Initialize an object to store selected exercises grouped by muscle group
     var selectedExercisesByMuscleGroup = {};
 
@@ -36,6 +40,16 @@ $(document).ready(function() {
         });
     });
 
+    // Function to enable or disable submit button based on the number of exercises
+    function toggleSubmitButton() {
+        var numExercises = $('#workoutPage').children().length;
+        if (numExercises > 0) {
+            $('#submitWorkoutButton').prop('disabled', false); // Corrected selector
+        } else {
+            $('#submitWorkoutButton').prop('disabled', true); // Corrected selector
+        }
+    }
+
     // Function to add exercise to the workout page
     function add_exercise_to_page() {
         // Clear existing exercises on the page
@@ -64,6 +78,7 @@ $(document).ready(function() {
                 });
             }
         });
+        toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
     }
 
     // Handle click event on exercise items in the modal list
@@ -96,6 +111,7 @@ $(document).ready(function() {
             selectedExercisesByMuscleGroup[muscleGroup].splice(index, 1);
         }
         add_exercise_to_page(); // Update the workout page after removing the exercise
+        toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
     });
 
     // Handle click event on info buttons
@@ -121,17 +137,17 @@ $(document).ready(function() {
         var setsInput = $('<input type="number" id="sets" name="sets" value="' +
                              (savedExerciseInfo[exercise.name] ?
                                  savedExerciseInfo[exercise.name].sets : 1) + '" min="1">');
-        var addButton = $('<button type="button" id="modalButton" class="btn btn-primary btn-xs">'+
-                            'Confirmed Number of Sets</button>'); // Changed to btn-xs class
+        var confirmButton = $('<button type="button" id="modalButton" class="btn btn-primary btn-xs">'+
+                            'Confirm</button>'); // Changed to btn-xs class
         var lineBreak1 = $('<br>'); // First line break element
         var lineBreak2 = $('<br>'); // Second line break element
         var container = $('<div id="container"></div>');
 
         modalBody.append(setsInput);
-        modalBody.append(addButton);
         modalBody.append(lineBreak1); // Append first line break
         modalBody.append(lineBreak2); // Append second line break
         modalBody.append(container);
+        modalBody.append(confirmButton);
 
         modalContent.append(modalHeader, modalBody);
         modalDialog.append(modalContent);
@@ -143,60 +159,122 @@ $(document).ready(function() {
         // Show the modal
         modal.modal('show');
 
-        // Populate text boxes with saved values
-        for (var i = 0; i < (savedExerciseInfo[exercise.name] ? 
-            savedExerciseInfo[exercise.name].sets : 1); i++) {
-            var repBox = $('<input type="text" class="form-control mb-2 mr-2" placeholder="Reps' +
-             'for set ' + (i+ 1) + '">').val(savedExerciseInfo[exercise.name] ?
-                 savedExerciseInfo[exercise.name].reps[i] || '' : '');
-            var weightBox = $('<input type="text" class="form-control mb-2" placeholder="Weight' +
-             'for set ' + (i+ 1) + '">').val(savedExerciseInfo[exercise.name] ?
-                 savedExerciseInfo[exercise.name].weights[i] || '' : '');
-            var row = $('<div class="row"></div>').append($('<div class="col-md-6">'+
-                '</div>').append(repBox), $('<div class="col-md-6"></div>').append(weightBox));
-            container.append(row);
-        };
-
-        // Handle click event on Add button
-        addButton.on('click', function() {
-            var sets = parseInt(setsInput.val());
-            container.empty(); // Clear existing text boxes
+        // Function to update number of reps and weights inputs based on sets
+        function updateInputs(sets) {
+            container.empty(); // Clear existing inputs
             
             // Create and append pairs of text boxes for each set
             for (var i = 0; i < sets; i++) {
-                var repBox = $('<input type="text" class="form-control mb-2 mr-2"' +
-                'placeholder="Reps for set ' + (i+ 1) + '">').val(savedExerciseInfo[exercise.name] ?
-                     savedExerciseInfo[exercise.name].reps[i] || '' : '');
-                var weightBox = $('<input type="text" class="form-control mb-2" placeholder='+
-                '"Weight for set ' + (i+ 1) + '">').val(savedExerciseInfo[exercise.name] ?
-                     savedExerciseInfo[exercise.name].weights[i] || '' : '');
+                var repBox = $('<input type="text" class="form-control mb-2 mr-2" placeholder="Reps' +
+                 ' for set ' + (i+ 1) + '">');
+                var weightBox = $('<input type="text" class="form-control mb-2" placeholder="Weight' +
+                 ' for set ' + (i+ 1) + '">');
                 var row = $('<div class="row"></div>').append($('<div class="col-md-6">'+
                     '</div>').append(repBox), $('<div class="col-md-6"></div>').append(weightBox));
                 container.append(row);
             }
-        });
 
-        // Add close and submit buttons outside the Add button click event handler
-        var submitButton = $('<button type="button" class="btn btn-primary">'+
-                             'Submit</button>').on('click', function() {
-            // Save the values
-            savedExerciseInfo[exercise.name] = {
-                sets: setsInput.val(),
-                reps: [],
-                weights: []
-            };
+            // Display stored values if available
+            if (savedExerciseInfo[exercise.name]) {
+                var reps = savedExerciseInfo[exercise.name].reps;
+                var weights = savedExerciseInfo[exercise.name].weights;
+
+                // Update rep and weight inputs with stored values
+                container.find('input[type="text"]').each(function(index) {
+                    if (index % 2 === 0) {
+                        $(this).val(reps[index / 2] || '');
+                    } else {
+                        $(this).val(weights[(index - 1) / 2] || '');
+                    }
+                });
+            }
+        }
+
+        // Handle click event on confirm button
+        confirmButton.on('click', function() {
+            var sets = parseInt(setsInput.val());
+            var reps = [];
+            var weights = [];
+
+            // Collect reps and weights values
             container.find('input[type="text"]').each(function(index) {
                 if (index % 2 === 0) {
-                    savedExerciseInfo[exercise.name].reps.push($(this).val());
+                    reps.push($(this).val());
                 } else {
-                    savedExerciseInfo[exercise.name].weights.push($(this).val());
+                    weights.push($(this).val());
                 }
             });
+
+            // Store data in savedExerciseInfo object
+            savedExerciseInfo[exercise.name] = {
+                sets: sets,
+                reps: reps,
+                weights: weights
+            };
+
+            // Close the modal
             modal.modal('hide');
-            // Additional logic for submission if needed
         });
 
-        var buttonsDiv = $('<div class="text-right"></div>').append(submitButton);
-        modalBody.append(buttonsDiv);
+        // Handle input change event on sets input
+        setsInput.on('input', function() {
+            var sets = parseInt($(this).val());
+            updateInputs(sets);
+        });
+
+        // Initialize inputs based on initial sets value
+        var initialSets = parseInt(setsInput.val());
+        updateInputs(initialSets);
+    });
+    
+
+    // Handle click event on submit workout button
+    $('#submitWorkoutButton').click(function() {
+        // Get the workout name value
+        var workoutName = $('#workoutName').val().trim();
+
+        // Validate workout name
+        if (workoutName === '') {
+            $('#workoutNameError').show(); // Show error message
+            return; // Prevent submission
+        }
+
+        // Clear error message if validation passed
+        $('#workoutNameError').hide();
+
+        var workoutName = $('#workoutName').val(); // Get the workout name from the input field
+        var workoutData = {
+            name: workoutName,
+            exercises: []
+        };
+
+        // Iterate over savedExerciseInfo and add each exercise to workoutData
+        $.each(savedExerciseInfo, function(exerciseName, exerciseInfo) {
+            var exerciseData = {
+                name: exerciseName,
+                sets: exerciseInfo.sets,
+                reps: exerciseInfo.reps,
+                weights: exerciseInfo.weights
+            };
+            workoutData.exercises.push(exerciseData);
+        });
+
+        // Send workoutData to Flask endpoint
+        $.ajax({
+            type: 'POST',
+            url: '/save_workout',
+            contentType: 'application/json',
+            data: JSON.stringify({ workoutData: workoutData }),
+            success: function(response) {
+                // Handle success response from the server if needed
+                console.log('Workout data sent successfully.');
+                // Redirect to home.html
+                window.location.href = '/';
+            },
+            error: function(xhr, status, error) {
+                // Handle error response from the server if needed
+                console.error('Error sending workout data:', error);
+            }
+        });
     });
 });

@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from . import db
-from .models import Exercises
+from .models import Exercises, UserWorkout
 from flask_login import current_user
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
@@ -15,7 +15,7 @@ def get_exercises():
                        exercise.equipType} for exercise in exercises]
     return jsonify(exercisesList)
 
-@WorkoutPage.route('/WorkoutPage', methods=['GET','POST'])
+@WorkoutPage.route('/WorkoutPage', methods=['GET', 'POST'])
 def workoutPage():
     if request.method == 'POST':
         name = request.form['name']
@@ -26,6 +26,18 @@ def workoutPage():
         db.session.add(exercises)
         db.session.commit()
 
-        return redirect(url_for('WorkoutPage'))
+        return redirect(url_for('WorkoutPage.workoutPage'))
 
+    # Render the template for GET requests
     return render_template('WorkoutPage.html', user=current_user)
+    
+@WorkoutPage.route('/save_workout', methods=['POST'])
+def save_workout():
+    # Get the workout data from the request
+    workout_data = request.json.get('workoutData')
+    workoutObj = UserWorkout(workout_data)
+    # Print the workout to the console
+    # workoutObj.printWorkout()    
+    # Save the workout to the database
+    workoutObj.saveWorkoutDB()
+    return render_template('home.html', user=current_user)

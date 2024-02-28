@@ -1,2 +1,4 @@
-Flask Web App/instance/database.db
+Flask Web App\instance\database.db
+*.pyc
 Flask Web App/website/__pycache__/*
+Flask Web App/instance/database.db

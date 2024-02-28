@@ -2,6 +2,9 @@ from flask import Blueprint, jsonify, render_template, request, redirect, url_fo
 from . import db
 from .models import Exercises, UserWorkout
 from flask_login import current_user
+from .access import DbAccessSingleton
+
+db_instance = DbAccessSingleton.get_instance()
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 # The first argument is the name of the blueprint, and the second argument is the name of the module
@@ -41,3 +44,21 @@ def save_workout():
     # Save the workout to the database
     workoutObj.saveWorkoutDB()
     return render_template('home.html', user=current_user)
+
+# Displays recommended workout based on user input
+@WorkoutPage.route('/Result', methods=['GET', 'POST'])
+def result():
+    muscle_group = request.args.get('muscle_group')
+    equipment = request.args.get('equipment')
+    recommendation = fetch_recommendation(muscle_group, equipment)
+    recommendation = [sublist[0] for sublist in recommendation]
+
+    user = current_user if current_user.is_authenticated else None
+    return render_template('Result.html', recommendation=recommendation, user=user)
+
+def fetch_recommendation(muscle_group, equipment):
+    # Use the search method from DbAccessSingleton to fetch data from the database
+    result = db_instance.custom_query(f'SELECT Name FROM Exercises WHERE EquipType = "{equipment}" AND MuscleGroup = "{muscle_group}"')
+
+    # Return the recommendation if found, otherwise return a default message
+    return result if result else "No workout recommendation found for the selected Muscle Group and Equipment."

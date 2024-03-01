@@ -11,7 +11,7 @@ RecommenderBP = Blueprint('recommender', __name__)
 
 @RecommenderBP.route('/Recommender')
 def recommender():
-    return render_template('Recommender.html', user=current_user)
+    return render_template('Home.html', user=current_user)
 
 @RecommenderBP.route('/exercises', methods=['GET'])
 def get_exercises():

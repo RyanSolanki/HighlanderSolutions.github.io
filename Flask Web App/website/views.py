@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for # Import the Blueprint class from the flask package
+from flask import Blueprint, render_template, request, redirect, url_for # Import the Blueprint class from the flask package
 from flask_login import login_required, current_user
 from .models import Note, UserWorkout
 from . import db
@@ -17,7 +17,7 @@ def home():
         muscle_group = request.form.get('MuscleGroup')
         equipment = request.form.get('Equipment')
 
-        return redirect(url_for('views.result', muscle_group=muscle_group, equipment=equipment))
+        return redirect(url_for('WorkoutPage.result', muscle_group=muscle_group, equipment=equipment))
 
     else:
         workoutNames = []

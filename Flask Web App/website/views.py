@@ -32,14 +32,12 @@ def home():
             workoutObj = UserWorkout({'name': name, 'exercises': []})
             workoutObj.getWorkoutDB()
             workoutList.append(workoutObj)
-        for workout in workoutList:
-            workout.printWorkout()
-            print("\n")
+        # print(workoutList)
             
         # workoutObj = UserWorkout({'name': workoutName, 'exercises': []})
         # workoutObj.getWorkoutDB(workoutName)
         # workoutObj.printWorkout()
-        return render_template("Home.html", user=current_user)
+        return render_template("WorkoutViewer.html", user=current_user, workoutList=workoutList)
     
 
 

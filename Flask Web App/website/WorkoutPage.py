@@ -39,11 +39,23 @@ def save_workout():
     # Get the workout data from the request
     workout_data = request.json.get('workoutData')
     workoutObj = UserWorkout(workout_data)
+    print(workoutObj.to_dict())
     # Print the workout to the console
     # workoutObj.printWorkout()    
     # Save the workout to the database
     workoutObj.saveWorkoutDB()
     return render_template('home.html', user=current_user)
+
+@WorkoutPage.route('/save_workout_data', methods=['POST'])
+def save_workout_data():
+
+    # Extract workoutName and workoutData from JSON
+    workout_name = request.json.get('workoutName')
+    workout_data = request.json.get('workoutData')
+
+    print(f"Workout Name: {workout_name}; Workout Data: {workout_data}")
+
+    
 
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])

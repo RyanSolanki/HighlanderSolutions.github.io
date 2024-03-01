@@ -14,11 +14,11 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
     db.init_app(app)
 
-    from .views import views
-    from .auth import auth
-    from .WorkoutPage import WorkoutPage
-    from .calender import calender
-    from .recommender import RecommenderBP
+    from .blueprints.views import views
+    from .blueprints.auth import auth
+    from .blueprints.WorkoutPage import WorkoutPage
+    from .blueprints.calender import calender
+    from .blueprints.recommender import RecommenderBP
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')

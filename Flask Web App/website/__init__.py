@@ -21,7 +21,7 @@ def create_app():
     from .blueprints.recommender import RecommenderBP
 
     app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(WorkoutPage, url_prefix='/')
     app.register_blueprint(calender, url_prefix='/')
     app.register_blueprint(RecommenderBP, url_prefix='/')

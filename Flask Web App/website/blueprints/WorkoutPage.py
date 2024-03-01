@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
-from . import db
-from .models import Exercises, UserWorkout
+from .. import db
+from ..models import Exercises, UserWorkout
 from flask_login import current_user
-from .access import DbAccessSingleton
+from ..access import DbAccessSingleton
 
 db_instance = DbAccessSingleton.get_instance()
 

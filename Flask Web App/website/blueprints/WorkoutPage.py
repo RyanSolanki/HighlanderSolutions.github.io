@@ -45,6 +45,18 @@ def save_workout():
     workoutObj.saveWorkoutDB()
     return render_template('home.html', user=current_user)
 
+@WorkoutPage.route('/save_workout_data', methods=['POST'])
+def save_workout_data():
+
+    # Extract workoutName and workoutData from JSON
+    workout_name = request.json.get('workoutName')
+    workout_data = request.json.get('workoutData')
+    recommendation = [exercise['exerciseName'] for exercise in workout_data['exercises']]
+    #print(f"Workout Name: {workout_name}; Workout Data: {workout_data}")
+    print(recommendation)
+
+    return render_template('Result.html', recommendation=recommendation, user=current_user)
+
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
 def result():

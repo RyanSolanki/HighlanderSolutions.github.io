@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from .. import db
-from ..models import Exercises
+from ..models import Exercises, ScheduledWorkouts
 from flask_login import current_user
 
 DATABASE = 'Flask Web App\instance\database.db'
@@ -18,3 +18,15 @@ def get_exercises():
     exercisesList = [{'name': exercise.name, 'muscleGroup': exercise.muscleGroup, 'equipType': 
                        exercise.equipType} for exercise in exercises]
     return jsonify(exercisesList)
+
+@calender.route('/save_scheduled_workout', methods=['POST'])
+def save_scheduled_workout():
+    workout_data = request.get_json()['workoutData']
+
+    scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])
+
+    db.session.add(scheduled_workout)
+
+    db.session.commit()
+
+    return 'Scheduled workout data saved successfully.', 200

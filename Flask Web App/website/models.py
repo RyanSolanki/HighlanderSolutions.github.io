@@ -93,4 +93,12 @@ class UserWorkout():
             # Insert the workout into the database
             db_instance.insert('SavedWorkouts', f"({currentId}, '{current_user.email}', '{self.workoutName}',  '{exercise.exerciseName}', {exercise.sets}, '{reps_string}', '{weight_string}')")
             currentId += 1
-    
+
+class ScheduledWorkouts(db.Model):
+    __tablename__ = 'ScheduledWorkouts'
+    date = db.Column(db.String, primary_key=True)
+    workoutName = db.Column(db.String)
+
+    def __init__(self, date, workoutName):
+        self.date = date
+        self.workoutName = workoutName

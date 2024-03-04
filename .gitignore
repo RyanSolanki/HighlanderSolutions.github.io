@@ -3,3 +3,4 @@ Flask Web App\instance\database.db
 Flask Web App/website/__pycache__/*
 Flask Web App/instance/database.db
 *.db
+*.db

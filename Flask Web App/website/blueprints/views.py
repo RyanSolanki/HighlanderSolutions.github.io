@@ -14,4 +14,21 @@ def home():
         return redirect(url_for('WorkoutPage.result', muscle_group=muscle_group, equipment=equipment))
 
     else:
-        return render_template("Home.html", user=current_user) # This is the function that will be triggered when the URL is visited
+        workoutNames = []
+        workoutList = []
+        db_instance = DbAccessSingleton.get_instance()
+        result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+        result = list(result)
+        for name in result:
+            tempName = name[0]
+            workoutNames.append(tempName)
+        for name in workoutNames:
+            workoutObj = UserWorkout({'name': name, 'exercises': []})
+            workoutObj.getWorkoutDB()
+            workoutList.append(workoutObj)
+        # print(workoutList)
+            
+        # workoutObj = UserWorkout({'name': workoutName, 'exercises': []})
+        # workoutObj.getWorkoutDB(workoutName)
+        # workoutObj.printWorkout()
+        return render_template("WorkoutViewer.html", user=current_user, workoutList=workoutList)

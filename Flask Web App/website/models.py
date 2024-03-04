@@ -66,7 +66,16 @@ class UserWorkout():
 
         for workout in workout_data['exercises']:
             self.exerciseList.append(UserExercise(workout))
-            
+
+    def to_dict(self):
+        temp_dict = {}
+        temp_dict['name'] = self.workoutName
+        temp_dict['exercises'] = [exercise.__dict__ for exercise in self.exerciseList]
+        for exercise in temp_dict['exercises']:
+            exercise['reps'] = [int(rep) for rep in exercise['reps']]
+            exercise['weight'] = [int(weight) for weight in exercise['weight']]
+
+        return temp_dict   
     
     def printWorkout(self):
         print("Workout Name:", self.workoutName)

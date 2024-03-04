@@ -102,3 +102,12 @@ class ScheduledWorkouts(db.Model):
     def __init__(self, date, workoutName):
         self.date = date
         self.workoutName = workoutName
+
+class SavedWorkouts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    UserID = db.Column(db.TEXT)
+    WorkoutName = db.Column(db.TEXT)
+    ExerciseName = db.Column(db.TEXT)
+    NumberOfSets = db.Column(db.INTEGER)
+    NumberOfReps = db.Column(db.TEXT)
+    Weights = db.Column(db.TEXT)

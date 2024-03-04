@@ -75,22 +75,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
     monthElement.addEventListener("change", load_calendar);
     yearElement.addEventListener("change", load_calendar);
-
-    // Fetch exercises when the page loads
-    console.log("Fetching exercises");
-    fetch('/exercises')
-        .then(response => response.json())
-        .then(data => {
-            console.log("Exercises fetched", data);
-            let selectElement = document.getElementById('exercisesDropdown');
-            data.forEach(exercise => {
-                let optionElement = document.createElement('option');
-                optionElement.value = exercise.name;
-                optionElement.text = exercise.name;
-                selectElement.add(optionElement);
-            });
-        });
     
+
+    console.log("Fetching WorkoutNames");
+    fetch('/get_workout_names')
+    .then(response => response.json())
+    .then(data => {
+        console.log("WorkoutNames fetched", data);
+        let exercisesDropdown = document.getElementById('exercisesDropdown');
+        data.forEach(workoutName => {
+            let optionElement = document.createElement('option');
+            optionElement.value = workoutName;
+            optionElement.text = workoutName; 
+            exercisesDropdown.add(optionElement);
+        });
+    });
+
 
     $(document).on("click", "#calendarElement td", function() {
         var selectedExercise = $("#exercisesDropdown").val();
@@ -98,16 +98,14 @@ document.addEventListener("DOMContentLoaded", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-        // Prepare the workout data
         var workoutData = {
             date: formattedDate,
             workoutName: selectedExercise
         };
 
-        // Send workoutData to Flask endpoint
         $.ajax({
             type: 'POST',
-            url: '/save_scheduled_workout', // You need to create this endpoint in your Flask app
+            url: '/save_scheduled_workout',
             contentType: 'application/json',
             data: JSON.stringify({ workoutData: workoutData }),
             success: function(response) {

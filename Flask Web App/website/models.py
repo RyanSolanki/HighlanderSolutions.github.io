@@ -94,6 +94,31 @@ class UserWorkout():
             db_instance.insert('SavedWorkouts', f"({currentId}, '{current_user.email}', '{self.workoutName}',  '{exercise.exerciseName}', {exercise.sets}, '{reps_string}', '{weight_string}')")
             currentId += 1
 
+    def getWorkoutDB(self):
+        # Connect to the database access singleton
+        db_instance = DbAccessSingleton.get_instance()
+        # Get the workout from the database
+        workout = db_instance.custom_query(f"SELECT * FROM SavedWorkouts WHERE WorkoutName = " +
+                                           f"'{self.workoutName}' AND UserID = '{current_user.email}'")
+        # Iterate through the exercises in the workout
+        for exercise in workout:
+            # Check if the value is a string before splitting
+            if isinstance(exercise[5], str):
+                reps = [int(rep) for rep in exercise[5].split(',')]
+            else:
+                # Handle the case where the value is not a string
+                reps = []  # or any other appropriate default value
+            if isinstance(exercise[6], str):
+                weights = [int(weight) for weight in exercise[6].split(',')]
+            else:
+                weights = []  # or any other appropriate default value
+            #print(f"exercise[1] = {exercise[1]}, exercise[2] = {exercise[2]}, exercise[3] = {exercise[3]}, exercise[4] = {exercise[4]}, exercise[5] = {exercise[5]}, exercise[6] = {exercise[6]}")
+            #print(f"Name: {exercise[3]}, Sets: {exercise[4]}, Reps: {reps}, Weights: {weights} ")
+            userExercise = UserExercise({'name': exercise[3], 'sets': exercise[4], 
+                                         'reps': reps, 'weights': weights})
+            #userExercise.printExercise()
+            self.exerciseList.append(userExercise)
+
 class ScheduledWorkouts(db.Model):
     __tablename__ = 'ScheduledWorkouts'
     date = db.Column(db.String, primary_key=True)

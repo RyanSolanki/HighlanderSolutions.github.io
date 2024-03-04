@@ -92,11 +92,34 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
 
-    $("#calendarElement").on("click", "td", function() {
+    $(document).on("click", "#calendarElement td", function() {
         var selectedExercise = $("#exercisesDropdown").val();
         var selectedDate = $(this).text();
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // Prepare the workout data
+        var workoutData = {
+            date: formattedDate,
+            workoutName: selectedExercise
+        };
+
+        // Send workoutData to Flask endpoint
+        $.ajax({
+            type: 'POST',
+            url: '/save_scheduled_workout', // You need to create this endpoint in your Flask app
+            contentType: 'application/json',
+            data: JSON.stringify({ workoutData: workoutData }),
+            success: function(response) {
+                // Handle success response from the server if needed
+                console.log('Scheduled workout data sent successfully.');
+            },
+            error: function(xhr, status, error) {
+                // Handle error response from the server if needed
+                console.error('Error sending scheduled workout data:', error);
+            }
+        });
+
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });
 });

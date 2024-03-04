@@ -1,4 +1,5 @@
-# test_blueprints.py
+# tests/test_blueprints.py
+
 import sys
 import os
 
@@ -25,16 +26,14 @@ def app():
 def client(app):
     return app.test_client()
 
-# tests/test_blueprints.py
 def test_sign_up(client):
-    response = client.post('/auth/Sign-up', data={'email': 'newuser@example.com', 'firstName': 'New', 'password1': 'testpassword', 'password2': 'testpassword'})
-    assert response.status_code == 200  # Check of code == 302 (302 represents redirect to /views home page)
+    response = client.post('/Sign-up', data={'email': 'test@example.com', 'firstName': 'New', 'password1': 'testpassword', 'password2': 'testpassword'})
+    assert response.status_code == 200  # Successful Sign-up
 
 def test_login(client):
-    response = client.post('/auth/Login', data={'email': 'newuser@example.com', 'password': 'testpassword'})
-    assert response.status_code == 302  # Check of code == 302 (302 represents redirect to /views home page)
+    response = client.post('/Login', data={'email': 'test@example.com', 'password': 'testpassword'})
+    assert response.status_code == 302 # Successful redirect to home page
 
 def test_logout(client):
-    response = client.get('/auth/logout')
-    assert response.status_code == 302  # Check of code == 302 (302 represents redirect to /Login page)
-
+    response = client.get('/logout')
+    assert response.status_code == 302 # Successful redirect to login page

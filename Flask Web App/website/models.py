@@ -129,3 +129,12 @@ class UserWorkout():
             #userExercise.printExercise()
             self.exerciseList.append(userExercise)
         
+
+class ScheduledWorkouts(db.Model):
+    __tablename__ = 'ScheduledWorkouts'
+    date = db.Column(db.String, primary_key=True)
+    workoutName = db.Column(db.String)
+
+    def __init__(self, date, workoutName):
+        self.date = date
+        self.workoutName = workoutName

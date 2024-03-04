@@ -1,5 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for # Import the Blueprint class from the flask package
 from flask_login import login_required, current_user
+from ..models import Note, UserWorkout
+from .. import db
+import json
+from ..access import DbAccessSingleton
+
+db_instance = DbAccessSingleton.get_instance()
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 views = Blueprint('views', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package

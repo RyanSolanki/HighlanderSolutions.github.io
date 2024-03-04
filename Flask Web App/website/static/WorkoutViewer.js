@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Workout data sent successfully.');
                     console.log('Server response:', response);
                     // Perform any additional actions as needed
-                    // window.location.href = '/WorkoutPage';
+                    window.location.href = '/Result';
                 },
                 error: function(xhr, status, error) {
                     // Handle error response from the server if needed

@@ -72,8 +72,8 @@ class UserWorkout():
         temp_dict['name'] = self.workoutName
         temp_dict['exercises'] = [exercise.__dict__ for exercise in self.exerciseList]
         for exercise in temp_dict['exercises']:
-            exercise['reps'] = [str(rep) for rep in exercise['reps']]
-            exercise['weight'] = [str(weight) for weight in exercise['weight']]
+            exercise['reps'] = [int(rep) for rep in exercise['reps']]
+            exercise['weight'] = [int(weight) for weight in exercise['weight']]
 
         return temp_dict
             

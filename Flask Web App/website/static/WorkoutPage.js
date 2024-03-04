@@ -2,6 +2,7 @@ $(document).ready(function() {
     console.log(preSelectedExercises)
     if (preSelectedExercises != null){
         preSelectedExercises = JSON.parse(preSelectedExercises.replace(/'/g, '"'));
+        print(preSelectedExercises)
     }
     // Show the workoutPage div when the Add Exercise button is clicked
     // Hide the modal dialog when the page loads

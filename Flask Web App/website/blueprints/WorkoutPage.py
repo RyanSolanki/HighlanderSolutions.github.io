@@ -52,8 +52,14 @@ def save_workout_data():
     # Extract workoutName and workoutData from JSON
     workout_name = request.json.get('workoutName')
     workout_data = request.json.get('workoutData')
+    recommendation = [exercise['exerciseName'] for exercise in workout_data['exercises']]
+    #print(f"Workout Name: {workout_name}; Workout Data: {workout_data}")
+    print(recommendation)
 
-    print(f"Workout Name: {workout_name}; Workout Data: {workout_data}")
+    # recommendation is a Python list
+    recommendation = ', '.join(map(str, recommendation))
+
+    return render_template('Result.html', recommendation=recommendation, user=current_user)
 
     
 
@@ -63,6 +69,7 @@ def result():
     muscle_group = request.args.get('muscle_group')
     equipment = request.args.get('equipment')
     recommendation = fetch_recommendation(muscle_group, equipment)
+    print(recommendation)
     recommendation = [sublist[0] for sublist in recommendation]
 
     user = current_user if current_user.is_authenticated else None

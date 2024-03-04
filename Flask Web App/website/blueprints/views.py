@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for # Import the Blueprint class from the flask package
 from flask_login import login_required, current_user
-from .models import Note, UserWorkout
-from . import db
+from ..models import Note, UserWorkout
+from .. import db
 import json
-from .access import DbAccessSingleton
+from ..access import DbAccessSingleton
 
 db_instance = DbAccessSingleton.get_instance()
 

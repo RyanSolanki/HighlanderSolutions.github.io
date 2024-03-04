@@ -47,7 +47,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Pre-select exercises based on the recommendation array -->
     <script>
-        var preSelectedExercises = "{{ recommendation | safe }}";
+        var preSelectedExercises = [{{ recommendation | join("','") }}];
     </script>
     <script src="{{ url_for('static', filename='WorkoutPage.js') }}"></script>
 {% endblock %}

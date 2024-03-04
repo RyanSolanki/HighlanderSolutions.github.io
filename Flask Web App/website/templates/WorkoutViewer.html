@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Welcome, {{ user.username }}!</h1>
+    <h2>Choose a Workout:</h2>
+    <div id="workout-container">
+        {% for workout in workoutList %}
+        <div class="workout-block">
+            <h3>{{ workout.workoutName }}</h3>
+            <ul>
+                {% for exercise in workout.exerciseList %}
+                <li>{{ exercise.exerciseName }}</li>
+                <ul>
+                    <li>&emsp;Sets: 
+                        {{ exercise.sets }}
+                    </li>
+                    <li>&emsp;Reps:
+                        {% for rep in exercise.reps %}
+                            {{ rep }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    </li>
+                </ul>
+                {% if not loop.last %}
+                <hr> <!-- Add a horizontal line between exercises -->
+                {% endif %}
+                {% endfor %}
+            </ul>
+            <button class="start-workout-btn" data-workout="{{ workout.workoutName }}" data-workout-data='{{ workout.to_dict()|tojson }}'>Start Workout</button>
+        </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+{% block additional_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='WorkoutViewer.css') }}">
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="{{ url_for('static', filename='WorkoutViewer.js') }}"></script>
+{% endblock %}

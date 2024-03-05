@@ -238,9 +238,30 @@ $(document).ready(function() {
             updateInputs(sets);
         });
 
-        // Initialize inputs based on initial sets value
         var initialSets = parseInt(setsInput.val());
         updateInputs(initialSets);
+
+        // Checks if preselectedInfo is not null and if the exercise is in the preselectedInfo has been loaded already
+        if (preselectedInfo[exercise.name] != null && !preselectedInfo[exercise.name].loaded) {
+            // Set the value of setsInput to true
+            preselectedInfo[exercise.name].loaded = true;
+            // Define the new value for setsInput
+            var newSetsValue = preselectedInfo[exercise.name].sets;
+
+            // Set the value of setsInput
+            setsInput.val(newSetsValue);
+
+            // Store data in savedExerciseInfo object
+            savedExerciseInfo[exercise.name] = {
+                sets: newSetsValue,
+                reps: preselectedInfo[exercise.name].reps,
+                weights: preselectedInfo[exercise.name].weights
+            };
+            
+            // Trigger the 'input' event to ensure the event handler function runs
+            setsInput.trigger('input');
+        }
+
     });
     
 

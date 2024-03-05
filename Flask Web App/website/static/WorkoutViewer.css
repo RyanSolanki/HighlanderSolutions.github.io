@@ -9,6 +9,18 @@ body {
     padding: 0;
 }
 
+/* Style the scrollbar track */
+.workout-block::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar */
+    background-color: #333; /* Dark color for the scrollbar track */
+}
+
+/* Style the scrollbar thumb */
+.workout-block::-webkit-scrollbar-thumb {
+    background-color: #555; /* Dark color for the scrollbar thumb */
+    border-radius: 4px; /* Add some border radius to make it rounded */
+}
+
 .workout-block {
     background-color: #444; /* Dark block background color */
     border-radius: 5px;
@@ -17,12 +29,15 @@ body {
     padding: 20px;
     display: inline-block; /* Display workout blocks side by side */
     margin-right: 20px; /* Add some spacing between workout blocks */
+    max-height: 250px; /* Maximum height for the workout block */
+    overflow-y: auto; /* Enable vertical scroll if content exceeds max-height */
 }
 
 .workout-block h3 {
     margin-top: 0;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 28px; /* Increase the font size */
+    font-weight: bold; /* Make it bold */
 }
 
 .workout-block ul {

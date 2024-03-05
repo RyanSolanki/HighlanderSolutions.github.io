@@ -54,8 +54,14 @@ def save_workout_data():
         workout_data = request.json.get('workoutData')
         recommendation = [exercise['exerciseName'] for exercise in workout_data['exercises']]
         
+        preselectedInfo = {}
+
+        for exercise in workout_data['exercises']:
+            preselectedInfo[exercise['exerciseName']] = {'sets': exercise['sets'], 'reps': exercise['reps'], 'weights': exercise['weight'], 'loaded': False}
         # Save the recommendation data in the session
         session['recommendation'] = recommendation
+        #Save the preselected info in the session
+        session['preselectedInfo'] = preselectedInfo
         
         # Redirect to the same route with a GET request
         return redirect(url_for('WorkoutPage.save_workout_data'))
@@ -64,7 +70,9 @@ def save_workout_data():
 def get_recommendation():
     # Retrieve recommendation data from the session
     recommendation = session.get('recommendation', [])
-    return render_template('Result.html', recommendation=recommendation, user=current_user)
+    preselectedInfo = session.get('preselectedInfo', {})
+    # Figure out the best place to clear session data
+    return render_template('ModifiedWorkoutPage.html', recommendation=recommendation, preselectedInfo=preselectedInfo, user=current_user)
 
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
@@ -73,8 +81,6 @@ def result():
     equipment = request.args.get('equipment')
     recommendation = fetch_recommendation(muscle_group, equipment)
     recommendation = [sublist[0] for sublist in recommendation]
-    print(recommendation)
-
     user = current_user if current_user.is_authenticated else None
     return render_template('Result.html', recommendation=recommendation, user=user)
 

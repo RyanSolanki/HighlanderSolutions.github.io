@@ -238,6 +238,9 @@ $(document).ready(function() {
             updateInputs(sets);
         });
 
+        var initialSets = parseInt(setsInput.val());
+        updateInputs(initialSets);
+
         // Checks if preselectedInfo is not null and if the exercise is in the preselectedInfo has been loaded already
         if (preselectedInfo[exercise.name] != null && !preselectedInfo[exercise.name].loaded) {
             // Set the value of setsInput to true
@@ -254,26 +257,11 @@ $(document).ready(function() {
                 reps: preselectedInfo[exercise.name].reps,
                 weights: preselectedInfo[exercise.name].weights
             };
-
+            
             // Trigger the 'input' event to ensure the event handler function runs
             setsInput.trigger('input');
         }
-        else{
-            var initialSets = parseInt(setsInput.val());
 
-            // Set the value of setsInput to 0 to force and update of the correct inputs initialSets
-            setsInput.val(0);
-
-            // Trigger the 'input' event to ensure the event handler function runs
-            setsInput.trigger('input');
-            // Set the value of setsInput
-            setsInput.val(initialSets);
-
-            // Trigger the 'input' event to ensure the event handler function runs
-            setsInput.trigger('input');
-            //updateInputs(initialSets);
-
-        }
     });
     
 

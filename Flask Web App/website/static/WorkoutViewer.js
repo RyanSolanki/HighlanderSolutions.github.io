@@ -6,6 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const workoutName = this.dataset.workout;
             const workoutData = JSON.parse(this.dataset.workoutData);
 
+            // Initialize an empty array to store exercise names
+            var exerciseNames = [];
+
+            // Extract exercise names from workoutData and append to exerciseNames array
+            workoutData.exercises.forEach(function(exercise) {
+                exerciseNames.push(exercise.name);
+            });
+
             $.ajax({
                 type: 'POST',
                 url: '/save_workout_data',  // Use the new route for saving workout data
@@ -16,11 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Workout data sent successfully.');
                     console.log('Server response:', response);
                     // Perform any additional actions as needed
-                    window.location.href = '/Result';
+                    // Redirect to the process_workout_data route
+                    window.location.href = '/save_workout_data';
                 },
                 error: function(xhr, status, error) {
-                    // Handle error response from the server if needed
-                    window.location.href = '/WorkoutPage';
                     console.error('Error sending workout data:', error);
                 }
             });

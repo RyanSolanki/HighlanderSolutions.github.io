@@ -48,6 +48,7 @@
     <!-- Pre-select exercises based on the recommendation array -->
     <script>
         var preSelectedExercises = "{{ recommendation | safe }}";
+        var preselectedInfo = {{ preselectedInfo | tojson | safe}};
     </script>
     <script src="{{ url_for('static', filename='WorkoutPage.js') }}"></script>
 {% endblock %}

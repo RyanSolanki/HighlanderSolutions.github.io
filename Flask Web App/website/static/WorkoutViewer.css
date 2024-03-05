@@ -1,0 +1,49 @@
+/* WorkoutViewer.css */
+
+/* Dark theme styles */
+body {
+    background-color: #2b2b2b; /* Dark background color */
+    color: #fff; /* Light text color */
+    font-family: Arial, sans-serif; /* Font family */
+    margin: 0;
+    padding: 0;
+}
+
+.workout-block {
+    background-color: #444; /* Dark block background color */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    display: inline-block; /* Display workout blocks side by side */
+    margin-right: 20px; /* Add some spacing between workout blocks */
+}
+
+.workout-block h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.workout-block ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.workout-block ul li {
+    margin-bottom: 5px;
+}
+
+.start-workout-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.start-workout-btn:hover {
+    background-color: #0056b3;
+}

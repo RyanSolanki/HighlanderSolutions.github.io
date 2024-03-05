@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, request, redirect, url_for
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for, session
 from .. import db
 from ..models import Exercises, UserWorkout
 from flask_login import current_user
@@ -45,6 +45,27 @@ def save_workout():
     workoutObj.saveWorkoutDB()
     return render_template('home.html', user=current_user)
 
+
+@WorkoutPage.route('/save_workout_data', methods=['POST'])
+def save_workout_data():
+    if request.method == 'POST':
+        # Extract recommendation data from the request
+        workout_name = request.json.get('workoutName')
+        workout_data = request.json.get('workoutData')
+        recommendation = [exercise['exerciseName'] for exercise in workout_data['exercises']]
+        
+        # Save the recommendation data in the session
+        session['recommendation'] = recommendation
+        
+        # Redirect to the same route with a GET request
+        return redirect(url_for('WorkoutPage.save_workout_data'))
+
+@WorkoutPage.route('/save_workout_data', methods=['GET'])
+def get_recommendation():
+    # Retrieve recommendation data from the session
+    recommendation = session.get('recommendation', [])
+    return render_template('Result.html', recommendation=recommendation, user=current_user)
+
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
 def result():
@@ -52,6 +73,7 @@ def result():
     equipment = request.args.get('equipment')
     recommendation = fetch_recommendation(muscle_group, equipment)
     recommendation = [sublist[0] for sublist in recommendation]
+    print(recommendation)
 
     user = current_user if current_user.is_authenticated else None
     return render_template('Result.html', recommendation=recommendation, user=user)

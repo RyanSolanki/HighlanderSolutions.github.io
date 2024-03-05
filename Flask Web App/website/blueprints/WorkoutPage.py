@@ -72,7 +72,7 @@ def get_recommendation():
     recommendation = session.get('recommendation', [])
     preselectedInfo = session.get('preselectedInfo', {})
     # Figure out the best place to clear session data
-    return render_template('Result.html', recommendation=recommendation, preselectedInfo=preselectedInfo, user=current_user)
+    return render_template('ModifiedWorkoutPage.html', recommendation=recommendation, preselectedInfo=preselectedInfo, user=current_user)
 
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
@@ -81,8 +81,6 @@ def result():
     equipment = request.args.get('equipment')
     recommendation = fetch_recommendation(muscle_group, equipment)
     recommendation = [sublist[0] for sublist in recommendation]
-    print(recommendation)
-
     user = current_user if current_user.is_authenticated else None
     return render_template('Result.html', recommendation=recommendation, user=user)
 

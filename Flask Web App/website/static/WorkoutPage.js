@@ -179,14 +179,22 @@ $(document).ready(function() {
         function updateInputs(sets) {
             container.empty(); // Clear existing inputs
             
-            // Create and append pairs of text boxes for each set
             for (var i = 0; i < sets; i++) {
                 var repBox = $('<input type="text" class="form-control mb-2 mr-2" placeholder="Reps' +
-                 ' for set ' + (i+ 1) + '">');
+                                ' for set ' + (i + 1) + '">');
                 var weightBox = $('<input type="text" class="form-control mb-2" placeholder="Weight' +
-                 ' for set ' + (i+ 1) + '">');
+                                    ' for set ' + (i + 1) + '">');
+            
+                // Restrict user input to only numeric values
+                repBox.on('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+                weightBox.on('input', function() {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            
                 var row = $('<div class="row"></div>').append($('<div class="col-md-6">'+
-                    '</div>').append(repBox), $('<div class="col-md-6"></div>').append(weightBox));
+                                '</div>').append(repBox), $('<div class="col-md-6"></div>').append(weightBox));
                 container.append(row);
             }
 
@@ -276,8 +284,16 @@ $(document).ready(function() {
             return; // Prevent submission
         }
 
+        // Check if workoutName already exists in workoutNames
+        if (workoutNames.includes(workoutName)) {
+            $('#workoutNameExistsError').show(); // Show error message
+            return; // Prevent submission
+        }
+
+
         // Clear error message if validation passed
         $('#workoutNameError').hide();
+        $('#workoutNameExistsError').hide();
 
         var workoutName = $('#workoutName').val(); // Get the workout name from the input field
         var workoutData = {

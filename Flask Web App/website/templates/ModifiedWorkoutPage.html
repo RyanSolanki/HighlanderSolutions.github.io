@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1 class="app-title">Recommended Workout</h1>
+        <h1 class="app-title">Create Workout</h1>
         <!-- Text field for workout name -->
         <div class="form-group">
             <label for="workoutName">Workout Name:</label>
             <!-- Limiting the width of the text field -->
             <input type="text" id="workoutName" name="workoutName" placeholder="Enter Workout Name">
             <p id="workoutNameError" style="color: red; display: none;">Please enter a workout name</p>
+            <p id="workoutNameExistsError" style="color: red; display: none;">Workout name already exists</p>
         </div>
         <button id="addExerciseButton" class="btn btn-primary">Add Exercise</button>
         <p class="app-title">Current Exercises</p>
@@ -49,6 +50,7 @@
     <script>
         var preSelectedExercises = "{{ recommendation | safe }}";
         var preselectedInfo = {{ preselectedInfo | tojson | safe}};
+        var workoutNames = "{{ workoutNames | safe }}";
     </script>
     <script src="{{ url_for('static', filename='WorkoutPage.js') }}"></script>
 {% endblock %}

@@ -31,8 +31,11 @@ def workoutPage():
 
         return redirect(url_for('WorkoutPage.workoutPage'))
 
+    result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+    result = list(result)
+    workoutNames = [name[0] for name in result]
     # Render the template for GET requests
-    return render_template('WorkoutPage.html', user=current_user)
+    return render_template('WorkoutPage.html', user=current_user, workoutNames=workoutNames)
     
 @WorkoutPage.route('/save_workout', methods=['POST'])
 def save_workout():
@@ -71,8 +74,12 @@ def get_recommendation():
     # Retrieve recommendation data from the session
     recommendation = session.get('recommendation', [])
     preselectedInfo = session.get('preselectedInfo', {})
+
+    result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+    result = list(result)
+    workoutNames = [name[0] for name in result]
     # Figure out the best place to clear session data
-    return render_template('ModifiedWorkoutPage.html', recommendation=recommendation, preselectedInfo=preselectedInfo, user=current_user)
+    return render_template('ModifiedWorkoutPage.html', recommendation=recommendation, preselectedInfo=preselectedInfo, workoutNames=workoutNames, user=current_user)
 
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
@@ -82,7 +89,11 @@ def result():
     recommendation = fetch_recommendation(muscle_group, equipment)
     recommendation = [sublist[0] for sublist in recommendation]
     user = current_user if current_user.is_authenticated else None
-    return render_template('Result.html', recommendation=recommendation, user=user)
+
+    result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+    result = list(result)
+    workoutNames = [name[0] for name in result]
+    return render_template('Result.html', recommendation=recommendation, workoutNames=workoutNames, user=user)
 
 def fetch_recommendation(muscle_group, equipment):
     # Use the search method from DbAccessSingleton to fetch data from the database

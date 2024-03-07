@@ -29,7 +29,9 @@ body {
     padding: 20px;
     display: inline-block; /* Display workout blocks side by side */
     margin-right: 20px; /* Add some spacing between workout blocks */
-    max-height: 250px; /* Maximum height for the workout block */
+    max-height: 226px; /* Maximum height for the workout block */
+    height: 226px;
+    width: 180px;
     overflow-y: auto; /* Enable vertical scroll if content exceeds max-height */
 }
 
@@ -57,6 +59,7 @@ body {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
+    white-space: nowrap;
 }
 
 .start-workout-btn:hover {

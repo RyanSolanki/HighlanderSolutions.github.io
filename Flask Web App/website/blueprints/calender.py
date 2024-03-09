@@ -3,6 +3,7 @@ from .. import db
 from ..models import Exercises, ScheduledWorkouts, UserWorkout
 from flask_login import current_user
 from ..access import DbAccessSingleton
+from sqlalchemy.exc import IntegrityError
 
 DATABASE = 'Flask Web App\instance\database.db'
 
@@ -29,6 +30,18 @@ def get_workout_names():
 
 @calender.route('/save_scheduled_workout', methods=['POST'])
 def save_scheduled_workout():
+    try:
+        workout_data = request.get_json()['workoutData']
+        scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])
+        db.session.add(scheduled_workout)
+        db.session.commit()
+        return 'Scheduled workout data saved successfully.', 200
+    except IntegrityError:
+        db.session.rollback()
+        return 'Error: A workout for the selected date already exists.', 400
+    except Exception as e:
+        db.session.rollback()
+        return f'Error: {str(e)}', 500
     workout_data = request.get_json()['workoutData']
 
     scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])

@@ -76,26 +76,29 @@ document.addEventListener("DOMContentLoaded", function() {
     monthElement.addEventListener("change", load_calendar);
     yearElement.addEventListener("change", load_calendar);
 
-    console.log("Fetching workout names");
-    fetch('/workout_names')
+    // Fetch exercises when the page loads
+    console.log("Fetching exercises");
+    fetch('/exercises')
         .then(response => response.json())
-        .then(workoutNames => {
-            console.log("Workout names fetched", workoutNames);
-            let selectElement = document.getElementById('workoutDropdown');
-            workoutNames.forEach(workoutName => {
+        .then(data => {
+            console.log("Exercises fetched", data);
+            let selectElement = document.getElementById('exercisesDropdown');
+            data.forEach(exercise => {
                 let optionElement = document.createElement('option');
-                optionElement.value = workoutName;
-                optionElement.text = workoutName;
+                optionElement.value = exercise.name;
+                optionElement.text = exercise.name;
                 selectElement.add(optionElement);
             });
         });
     
+
     $(document).on("click", "#calendarElement td", function() {
-        var selectedExercise = $("#workoutDropdown").val();
+        var selectedExercise = $("#exercisesDropdown").val();
         var selectedDate = $(this).text();
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
+        // Prepare the workout data
         var workoutData = {
             date: formattedDate,
             workoutName: selectedExercise

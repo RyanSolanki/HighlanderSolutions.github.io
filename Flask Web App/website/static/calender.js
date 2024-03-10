@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Get all the rows in the calendar
         let rows = calendarElement.getElementsByTagName("tr");
     
-        // Delete all rows except for the first one (the header row)
         for (let i = rows.length - 1; i > 0; i--) {
             calendarElement.deleteRow(i);
         }

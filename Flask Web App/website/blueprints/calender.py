@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify, render_template, request, redirect, url_for, session
+from flask import Blueprint, jsonify, render_template, request, redirect, url_for
 from .. import db
-from ..models import Exercises, ScheduledWorkouts, UserWorkout
+from ..models import Exercises, ScheduledWorkouts
 from flask_login import current_user
 from ..access import DbAccessSingleton
 from sqlalchemy.exc import IntegrityError

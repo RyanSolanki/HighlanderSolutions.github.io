@@ -92,13 +92,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
     $(document).on("click", "#calendarElement td", function() {
-        // Remove the highlight from all cells
         $("#calendarElement td").removeClass("bgInfo");
-
-        // Add the highlight to the clicked cell
         $(this).addClass("bgInfo");
-
-        // Store the selected date and exercise
+        
         selectedDate = $(this).text();
         selectedExercise = $("#workoutDropdown").val();
     });
@@ -106,16 +102,15 @@ document.addEventListener("DOMContentLoaded", function() {
     $(document).on("click", "#scheduleWorkoutButton", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
+    
         var workoutData = {
             date: formattedDate,
-            workoutName: selectedExercise
+            workoutName: selectedExercise,
         };
-
-        // Send workoutData to Flask endpoint
+    
         $.ajax({
             type: 'POST',
-            url: '/save_scheduled_workout', // You need to create this endpoint in your Flask app
+            url: '/save_scheduled_workout',
             contentType: 'application/json',
             data: JSON.stringify({ workoutData: workoutData }),
             success: function(response) {
@@ -127,7 +122,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('Error sending scheduled workout data:', error);
             }
         });
-
+    
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });
+    
 });

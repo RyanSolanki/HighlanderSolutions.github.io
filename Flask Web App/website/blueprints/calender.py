@@ -23,16 +23,16 @@ def get_exercises():
 
 @calender.route('/workout_names', methods=['GET'])
 def get_workout_names():
-    db_instance = DbAccessSingleton.get_instance()  # Get the DBAccessSingleton instance
+    db_instance = DbAccessSingleton.get_instance()
     result = db_instance.custom_query("SELECT DISTINCT workoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
-    workout_names = [row[0] for row in result]  # Extract workout names from the query result
+    workout_names = [row[0] for row in result]
     return jsonify(workout_names)
 
 @calender.route('/save_scheduled_workout', methods=['POST'])
 def save_scheduled_workout():
     try:
         workout_data = request.get_json()['workoutData']
-        scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])
+        scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'], userID=current_user.email)
         db.session.add(scheduled_workout)
         db.session.commit()
         return 'Scheduled workout data saved successfully.', 200
@@ -42,12 +42,3 @@ def save_scheduled_workout():
     except Exception as e:
         db.session.rollback()
         return f'Error: {str(e)}', 500
-    workout_data = request.get_json()['workoutData']
-
-    scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])
-
-    db.session.add(scheduled_workout)
-
-    db.session.commit()
-
-    return 'Scheduled workout data saved successfully.', 200

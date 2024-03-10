@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var selectedYear;
     var selectedMonth;
     var selectedDate;
+    var selectedExercise;
 
     for (let i = 0; i < 12; i++) {
         let optionElement = document.createElement("option");
@@ -91,8 +92,18 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     
     $(document).on("click", "#calendarElement td", function() {
-        var selectedExercise = $("#workoutDropdown").val();
-        var selectedDate = $(this).text();
+        // Remove the highlight from all cells
+        $("#calendarElement td").removeClass("bgInfo");
+
+        // Add the highlight to the clicked cell
+        $(this).addClass("bgInfo");
+
+        // Store the selected date and exercise
+        selectedDate = $(this).text();
+        selectedExercise = $("#workoutDropdown").val();
+    });
+
+    $(document).on("click", "#scheduleWorkoutButton", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 

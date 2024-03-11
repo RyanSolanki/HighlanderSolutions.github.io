@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var selectedYear;
     var selectedMonth;
     var selectedDate;
+    var selectedExercise;
 
     for (let i = 0; i < 12; i++) {
         let optionElement = document.createElement("option");
@@ -39,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Get all the rows in the calendar
         let rows = calendarElement.getElementsByTagName("tr");
     
-        // Delete all rows except for the first one (the header row)
         for (let i = rows.length - 1; i > 0; i--) {
             calendarElement.deleteRow(i);
         }
@@ -93,21 +93,25 @@ document.addEventListener("DOMContentLoaded", function() {
     
 
     $(document).on("click", "#calendarElement td", function() {
-        var selectedExercise = $("#exercisesDropdown").val();
-        var selectedDate = $(this).text();
+        $("#calendarElement td").removeClass("bgInfo");
+        $(this).addClass("bgInfo");
+        
+        selectedDate = $(this).text();
+        selectedExercise = $("#workoutDropdown").val();
+    });
+
+    $(document).on("click", "#scheduleWorkoutButton", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-        // Prepare the workout data
+    
         var workoutData = {
             date: formattedDate,
-            workoutName: selectedExercise
+            workoutName: selectedExercise,
         };
-
-        // Send workoutData to Flask endpoint
+    
         $.ajax({
             type: 'POST',
-            url: '/save_scheduled_workout', // You need to create this endpoint in your Flask app
+            url: '/save_scheduled_workout',
             contentType: 'application/json',
             data: JSON.stringify({ workoutData: workoutData }),
             success: function(response) {
@@ -119,7 +123,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('Error sending scheduled workout data:', error);
             }
         });
-
+    
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });
+    
 });

@@ -132,7 +132,9 @@ class ScheduledWorkouts(db.Model):
     __tablename__ = 'ScheduledWorkouts'
     date = db.Column(db.String, primary_key=True)
     workoutName = db.Column(db.String)
+    userID = db.Column(db.String)
 
-    def __init__(self, date, workoutName):
+    def __init__(self, date, workoutName, userID):
         self.date = date
         self.workoutName = workoutName
+        self.userID = userID 

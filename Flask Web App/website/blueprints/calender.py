@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify, render_template, request, redirect, url_fo
 from .. import db
 from ..models import Exercises, ScheduledWorkouts
 from flask_login import current_user
+from ..access import DbAccessSingleton
+from sqlalchemy.exc import IntegrityError
 
 DATABASE = 'Flask Web App\instance\database.db'
 
@@ -19,14 +21,24 @@ def get_exercises():
                        exercise.equipType} for exercise in exercises]
     return jsonify(exercisesList)
 
+@calender.route('/workout_names', methods=['GET'])
+def get_workout_names():
+    db_instance = DbAccessSingleton.get_instance()
+    result = db_instance.custom_query("SELECT DISTINCT workoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+    workout_names = [row[0] for row in result]
+    return jsonify(workout_names)
+
 @calender.route('/save_scheduled_workout', methods=['POST'])
 def save_scheduled_workout():
-    workout_data = request.get_json()['workoutData']
-
-    scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'])
-
-    db.session.add(scheduled_workout)
-
-    db.session.commit()
-
-    return 'Scheduled workout data saved successfully.', 200
+    try:
+        workout_data = request.get_json()['workoutData']
+        scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'], userID=current_user.email)
+        db.session.add(scheduled_workout)
+        db.session.commit()
+        return 'Scheduled workout data saved successfully.', 200
+    except IntegrityError:
+        db.session.rollback()
+        return 'Error: A workout for the selected date already exists.', 400
+    except Exception as e:
+        db.session.rollback()
+        return f'Error: {str(e)}', 500

@@ -42,3 +42,14 @@ def save_scheduled_workout():
     except Exception as e:
         db.session.rollback()
         return f'Error: {str(e)}', 500
+
+@calender.route('/get_scheduled_workouts', methods=['GET'])
+def get_scheduled_workouts():
+    try:
+        date = request.args.get('date')
+        user_id = current_user.email
+        scheduled_workouts = ScheduledWorkouts.query.filter_by(date=date, userID=user_id).all()
+        workout_names = [workout.workoutName for workout in scheduled_workouts]
+        return jsonify(workout_names), 200
+    except Exception as e:
+        return f'Error: {str(e)}', 500

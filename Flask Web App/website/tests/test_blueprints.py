@@ -33,7 +33,7 @@ def test_sign_up_response(client):
     start_time = time.time()  # Record the start time
     response = client.post('/Sign-up', data={'email': 'test@example.com', 'firstName': 'New', 'password1': 'testpassword', 'password2': 'testpassword'})
     end_time = time.time()  # Record the end time
-    assert response.status_code == 200  # Successful sign in
+    assert response.status_code in [200, 302]  # Successful post and redirect to login page
     assert end_time - start_time < 0.5  # Ensure the response time is within 0.5 second
 
 def test_login_response(client):

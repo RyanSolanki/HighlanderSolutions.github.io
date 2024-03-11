@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Get all the rows in the calendar
         let rows = calendarElement.getElementsByTagName("tr");
     
+        // Delete all rows except for the first one (the header row)
         for (let i = rows.length - 1; i > 0; i--) {
             calendarElement.deleteRow(i);
         }
@@ -76,22 +77,20 @@ document.addEventListener("DOMContentLoaded", function() {
     monthElement.addEventListener("change", load_calendar);
     yearElement.addEventListener("change", load_calendar);
 
-    // Fetch exercises when the page loads
-    console.log("Fetching exercises");
-    fetch('/exercises')
+    console.log("Fetching workout names");
+    fetch('/workout_names')
         .then(response => response.json())
-        .then(data => {
-            console.log("Exercises fetched", data);
-            let selectElement = document.getElementById('exercisesDropdown');
-            data.forEach(exercise => {
+        .then(workoutNames => {
+            console.log("Workout names fetched", workoutNames);
+            let selectElement = document.getElementById('workoutDropdown');
+            workoutNames.forEach(workoutName => {
                 let optionElement = document.createElement('option');
-                optionElement.value = exercise.name;
-                optionElement.text = exercise.name;
+                optionElement.value = workoutName;
+                optionElement.text = workoutName;
                 selectElement.add(optionElement);
             });
         });
     
-
     $(document).on("click", "#calendarElement td", function() {
         $("#calendarElement td").removeClass("bgInfo");
         $(this).addClass("bgInfo");

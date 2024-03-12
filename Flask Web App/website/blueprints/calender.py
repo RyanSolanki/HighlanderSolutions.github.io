@@ -38,7 +38,7 @@ def save_scheduled_workout():
         return 'Scheduled workout data saved successfully.', 200
     except IntegrityError:
         db.session.rollback()
-        return 'Error: A workout for the selected date already exists.', 400
+        return 'ERROR:  You already have a workout scheduled for that day.', 400
     except Exception as e:
         db.session.rollback()
         return f'Error: {str(e)}', 500

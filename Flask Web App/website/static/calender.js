@@ -90,14 +90,45 @@ document.addEventListener("DOMContentLoaded", function() {
                 selectElement.add(optionElement);
             });
         });
-    
-    $(document).on("click", "#calendarElement td", function() {
-        $("#calendarElement td").removeClass("bgInfo");
-        $(this).addClass("bgInfo");
+
+        function fetch_and_display_workouts(date) {
+            $.get('/get_scheduled_workouts', {date: date}, function(workout_names) {
+                var workoutsContainer = document.getElementById('workoutsContainer');
+                workoutsContainer.innerHTML = '';
+                workout_names.forEach(function(workout_name) {
+                    var p = document.createElement('p');
+                    p.textContent = 'You currently have "' + workout_name + '" scheduled for this date';
+                    workoutsContainer.appendChild(p);
+                });
+            });
+        }
         
-        selectedDate = $(this).text();
-        selectedExercise = $("#workoutDropdown").val();
-    });
+        
+        $(document).on("click", "#calendarElement td", function() {
+            $("#calendarElement td").removeClass("bgInfo");
+            $(this).addClass("bgInfo");
+        
+            selectedDate = $(this).text();
+            selectedExercise = $("#workoutDropdown").val();
+        
+            var date = new Date(selectedYear, selectedMonth, selectedDate);
+            var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+            fetch_and_display_workouts(formattedDate);
+        });
+
+        $(document).on("click", "#calendarElement td", function() {
+            $("#calendarElement td").removeClass("bgInfo");
+            $(this).addClass("bgInfo");
+        
+            selectedDate = $(this).text();
+            selectedExercise = $("#workoutDropdown").val();
+        
+            var date = new Date(selectedYear, selectedMonth, selectedDate);
+            var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+            fetch_and_display_workouts(formattedDate);
+        });
 
     $(document).on("click", "#scheduleWorkoutButton", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);

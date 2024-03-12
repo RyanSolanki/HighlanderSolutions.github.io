@@ -23,17 +23,17 @@ def get_exercises():
 
 @calender.route('/workout_names', methods=['GET'])
 def get_workout_names():
-    db_instance = DbAccessSingleton.get_instance()
-    result = db_instance.custom_query("SELECT DISTINCT workoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
-    workout_names = [row[0] for row in result]
-    return jsonify(workout_names)
+    dbInstance = DbAccessSingleton.get_instance()
+    result = dbInstance.custom_query("SELECT DISTINCT workoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+    workoutNames = [row[0] for row in result]
+    return jsonify(workoutNames)
 
 @calender.route('/save_scheduled_workout', methods=['POST'])
 def save_scheduled_workout():
     try:
-        workout_data = request.get_json()['workoutData']
-        scheduled_workout = ScheduledWorkouts(date=workout_data['date'], workoutName=workout_data['workoutName'], userID=current_user.email)
-        db.session.add(scheduled_workout)
+        workoutData = request.get_json()['workoutData']
+        scheduledWorkout = ScheduledWorkouts(date=workoutData['date'], workoutName=workoutData['workoutName'], userID=current_user.email)
+        db.session.add(scheduledWorkout)
         db.session.commit()
         return 'Scheduled workout data saved successfully.', 200
     except IntegrityError:

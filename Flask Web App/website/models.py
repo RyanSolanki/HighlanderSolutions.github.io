@@ -7,13 +7,13 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     data = db.Column(db.String(10000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db. ForeignKey('user.id'))
+    userId = db.Column(db.Integer, db. ForeignKey('user.id'))
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
-    first_name = db.Column(db.String(150))
+    firstName = db.Column(db.String(150))
     notes = db.relationship('Note')
 
 class Exercises(db.Model):
@@ -28,86 +28,86 @@ class Exercises(db.Model):
                 f"equipType={self.equipType})")
     
 class UserExercise():
-    def __init__(self, exercise_data):
-        self.exerciseName = exercise_data['name']
-        self.sets = exercise_data['sets']
-        self.reps = exercise_data['reps']
-        self.weight = exercise_data['weights']
+    def __init__(self, exerciseData):
+        self.exerciseName = exerciseData['name']
+        self.sets = exerciseData['sets']
+        self.reps = exerciseData['reps']
+        self.weight = exerciseData['weights']
     
-    def printExercise(self):
+    def print_exercise(self):
         print("Exercise Name:", self.exerciseName)
         print("Sets:", self.sets)
         print("Reps:", self.reps)
         print("Weight:", self.weight)
         print("")        
 
-    def updateExercise(self, exerciseName, sets, reps, weight):
+    def update_exercise(self, exerciseName, sets, reps, weight):
         self.exerciseName = exerciseName
         self.sets = sets
         self.reps = reps
         self.weight = weight
 
-    def updateExerciseName(self, exerciseName):
+    def update_exercise_name(self, exerciseName):
         self.exerciseName = exerciseName
 
-    def updateSets(self, sets):
+    def update_sets(self, sets):
         self.sets = sets
 
-    def updateReps(self, reps):
+    def update_reps(self, reps):
         self.reps = reps
 
-    def updateWeight(self, weight):
+    def update_weight(self, weight):
         self.weight = weight
 
 class UserWorkout():
-    def __init__(self, workout_data):
-        self.workoutName = workout_data['name']
+    def __init__(self, workoutData):
+        self.workoutName = workoutData['name']
         self.exerciseList = []
 
-        for workout in workout_data['exercises']:
+        for workout in workoutData['exercises']:
             self.exerciseList.append(UserExercise(workout))
 
     def to_dict(self):
-        temp_dict = {}
-        temp_dict['name'] = self.workoutName
-        temp_dict['exercises'] = [exercise.__dict__ for exercise in self.exerciseList]
-        for exercise in temp_dict['exercises']:
+        tempDict = {}
+        tempDict['name'] = self.workoutName
+        tempDict['exercises'] = [exercise.__dict__ for exercise in self.exerciseList]
+        for exercise in tempDict['exercises']:
             exercise['reps'] = [int(rep) for rep in exercise['reps']]
             exercise['weight'] = [int(weight) for weight in exercise['weight']]
 
-        return temp_dict   
+        return tempDict   
     
-    def printWorkout(self):
+    def print_workout(self):
         print("Workout Name:", self.workoutName)
         for exercise in self.exerciseList:
-            exercise.printExercise()
+            exercise.print_exercise()
 
-    def saveWorkoutDB(self):
+    def save_workout_db(self):
         # Connect to the database access singleton
-        db_instance = DbAccessSingleton.get_instance()
+        dbInstance = DbAccessSingleton.get_instance()
         # Get the current id for the saved workouts
-        currentId = db_instance.custom_query("SELECT MAX(id) FROM SavedWorkouts")[0][0] + 1
+        currentId = dbInstance.custom_query("SELECT MAX(id) FROM SavedWorkouts")[0][0] + 1
         # Iterate through the exercises in the workout
         for exercise in self.exerciseList:
             # Convert each integer in the list to a string
-            reps_as_strings = [str(rep) for rep in exercise.reps]
+            repsAsStrings = [str(rep) for rep in exercise.reps]
             # Join the strings with a separator (e.g., comma)
-            reps_string = ', '.join(reps_as_strings)
+            repsString = ', '.join(repsAsStrings)
 
             # Convert each integer in the list to a string
-            weight_as_strings = [str(weight) for weight in exercise.weight]
+            weightAsStrings = [str(weight) for weight in exercise.weight]
             # Join the strings with a separator (e.g., comma)
-            weight_string = ', '.join(weight_as_strings)
+            weightString = ', '.join(weightAsStrings)
 
             # Insert the workout into the database
-            db_instance.insert('SavedWorkouts', f"({currentId}, '{current_user.email}', '{self.workoutName}',  '{exercise.exerciseName}', {exercise.sets}, '{reps_string}', '{weight_string}')")
+            dbInstance.insert('SavedWorkouts', f"({currentId}, '{current_user.email}', '{self.workoutName}',  '{exercise.exerciseName}', {exercise.sets}, '{repsString}', '{weightString}')")
             currentId += 1
 
-    def getWorkoutDB(self):
+    def get_workout_db(self):
         # Connect to the database access singleton
-        db_instance = DbAccessSingleton.get_instance()
+        dbInstance = DbAccessSingleton.get_instance()
         # Get the workout from the database
-        workout = db_instance.custom_query(f"SELECT * FROM SavedWorkouts WHERE WorkoutName = " +
+        workout = dbInstance.custom_query(f"SELECT * FROM SavedWorkouts WHERE WorkoutName = " +
                                            f"'{self.workoutName}' AND UserID = '{current_user.email}'")
         # Iterate through the exercises in the workout
         for exercise in workout:

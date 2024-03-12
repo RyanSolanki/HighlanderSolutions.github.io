@@ -13,7 +13,7 @@ $(document).ready(function() {
     });
 
     // Hide the modal dialog when the Close button is clicked
-    toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
+    toggle_submit_button(); // Enable or disable submit button based on the number of exercises
     
     // Initialize an object to store selected exercises grouped by muscle group
     var selectedExercisesByMuscleGroup = {};
@@ -57,7 +57,7 @@ $(document).ready(function() {
     });
 
     // Function to enable or disable submit button based on the number of exercises
-    function toggleSubmitButton() {
+    function toggle_submit_button() {
         var numExercises = $('#workoutPage').children().length;
         if (numExercises > 0) {
             $('#submitWorkoutButton').prop('disabled', false); // Corrected selector
@@ -94,7 +94,7 @@ $(document).ready(function() {
                 });
             }
         });
-        toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
+        toggle_submit_button(); // Enable or disable submit button based on the number of exercises
     }
 
     // Handle click event on exercise items in the modal list
@@ -127,7 +127,7 @@ $(document).ready(function() {
             selectedExercisesByMuscleGroup[muscleGroup].splice(index, 1);
         }
         add_exercise_to_page(); // Update the workout page after removing the exercise
-        toggleSubmitButton(); // Enable or disable submit button based on the number of exercises
+        toggle_submit_button(); // Enable or disable submit button based on the number of exercises
     });
 
     // Handle click event on info buttons
@@ -176,7 +176,7 @@ $(document).ready(function() {
         modal.modal('show');
 
         // Function to update number of reps and weights inputs based on sets
-        function updateInputs(sets) {
+        function update_inputs(sets) {
             container.empty(); // Clear existing inputs
             
             for (var i = 0; i < sets; i++) {
@@ -243,11 +243,11 @@ $(document).ready(function() {
         // Handle input change event on sets input
         setsInput.on('input', function() {
             var sets = parseInt($(this).val());
-            updateInputs(sets);
+            update_inputs(sets);
         });
 
         var initialSets = parseInt(setsInput.val());
-        updateInputs(initialSets);
+        update_inputs(initialSets);
 
         // Checks if preselectedInfo is not null and if the exercise is in the preselectedInfo has been loaded already
         if (preselectedInfo[exercise.name] != null && !preselectedInfo[exercise.name].loaded) {

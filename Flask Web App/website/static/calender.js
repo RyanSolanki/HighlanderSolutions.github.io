@@ -151,8 +151,10 @@ document.addEventListener("DOMContentLoaded", function() {
             error: function(xhr, status, error) {
                 // Handle error response from the server if needed
                 console.error('Error sending scheduled workout data:', error);
+                alert('' + xhr.responseText);
             }
         });
+        
     
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });

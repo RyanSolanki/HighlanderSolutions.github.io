@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var selectedYear;
     var selectedMonth;
     var selectedDate;
+    var selectedExercise;
 
     for (let i = 0; i < 12; i++) {
         let optionElement = document.createElement("option");
@@ -76,38 +77,71 @@ document.addEventListener("DOMContentLoaded", function() {
     monthElement.addEventListener("change", load_calendar);
     yearElement.addEventListener("change", load_calendar);
 
-    // Fetch exercises when the page loads
-    console.log("Fetching exercises");
-    fetch('/exercises')
+    console.log("Fetching workout names");
+    fetch('/workout_names')
         .then(response => response.json())
-        .then(data => {
-            console.log("Exercises fetched", data);
-            let selectElement = document.getElementById('exercisesDropdown');
-            data.forEach(exercise => {
+        .then(workoutNames => {
+            console.log("Workout names fetched", workoutNames);
+            let selectElement = document.getElementById('workoutDropdown');
+            workoutNames.forEach(workoutName => {
                 let optionElement = document.createElement('option');
-                optionElement.value = exercise.name;
-                optionElement.text = exercise.name;
+                optionElement.value = workoutName;
+                optionElement.text = workoutName;
                 selectElement.add(optionElement);
             });
         });
-    
 
-    $(document).on("click", "#calendarElement td", function() {
-        var selectedExercise = $("#exercisesDropdown").val();
-        var selectedDate = $(this).text();
+        function fetch_and_display_workouts(date) {
+            $.get('/get_scheduled_workouts', {date: date}, function(workout_names) {
+                var workoutsContainer = document.getElementById('workoutsContainer');
+                workoutsContainer.innerHTML = '';
+                workout_names.forEach(function(workout_name) {
+                    var p = document.createElement('p');
+                    p.textContent = 'You currently have "' + workout_name + '" scheduled for this date';
+                    workoutsContainer.appendChild(p);
+                });
+            });
+        }
+        
+        
+        $(document).on("click", "#calendarElement td", function() {
+            $("#calendarElement td").removeClass("bgInfo");
+            $(this).addClass("bgInfo");
+        
+            selectedDate = $(this).text();
+            selectedExercise = $("#workoutDropdown").val();
+        
+            var date = new Date(selectedYear, selectedMonth, selectedDate);
+            var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+            fetch_and_display_workouts(formattedDate);
+        });
+
+        $(document).on("click", "#calendarElement td", function() {
+            $("#calendarElement td").removeClass("bgInfo");
+            $(this).addClass("bgInfo");
+        
+            selectedDate = $(this).text();
+            selectedExercise = $("#workoutDropdown").val();
+        
+            var date = new Date(selectedYear, selectedMonth, selectedDate);
+            var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+            fetch_and_display_workouts(formattedDate);
+        });
+
+    $(document).on("click", "#scheduleWorkoutButton", function() {
         var date = new Date(selectedYear, selectedMonth, selectedDate);
         var formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
-        // Prepare the workout data
+    
         var workoutData = {
             date: formattedDate,
-            workoutName: selectedExercise
+            workoutName: selectedExercise,
         };
-
-        // Send workoutData to Flask endpoint
+    
         $.ajax({
             type: 'POST',
-            url: '/save_scheduled_workout', // You need to create this endpoint in your Flask app
+            url: '/save_scheduled_workout',
             contentType: 'application/json',
             data: JSON.stringify({ workoutData: workoutData }),
             success: function(response) {
@@ -117,9 +151,12 @@ document.addEventListener("DOMContentLoaded", function() {
             error: function(xhr, status, error) {
                 // Handle error response from the server if needed
                 console.error('Error sending scheduled workout data:', error);
+                alert('' + xhr.responseText);
             }
         });
-
+        
+    
         $("#selectedDate").text(formattedDate + ", Exercise: " + selectedExercise);
     });
+    
 });

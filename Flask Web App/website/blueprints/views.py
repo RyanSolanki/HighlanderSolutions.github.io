@@ -5,7 +5,7 @@ from .. import db
 import json
 from ..access import DbAccessSingleton
 
-db_instance = DbAccessSingleton.get_instance()
+dbInstance = DbAccessSingleton.get_instance()
 
 # Create a Blueprint object --> meaning it has a bunch of routes/URLs
 views = Blueprint('views', __name__) # The first argument is the name of the blueprint, and the second argument is the name of the module or package
@@ -22,8 +22,8 @@ def home():
     else:
         workoutNames = []
         workoutList = []
-        db_instance = DbAccessSingleton.get_instance()
-        result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
+        dbInstance = DbAccessSingleton.get_instance()
+        result = dbInstance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
         result = list(result)
         for name in result:
             tempName = name[0]

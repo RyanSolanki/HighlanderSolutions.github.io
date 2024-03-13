@@ -1,4 +1,5 @@
 import sqlite3 as sq
+import os
 
 class DbAccessSingleton(object):
     _instance = None
@@ -26,15 +27,20 @@ class DbAccessSingleton(object):
     # newclass.search('Exercises', '*', 'Name', "'Push-ups'")
     
     # It is to note that searches looking for a specific text entry need to have double quotes
-    def search(self, table, column, query_col, query):
-        # Connect to database and add cursor
-        con = sq.connect('Flask Web App/instance/database.db')
+    def search(self, table, column, queryCol, query):
+        # Get the absolute path of the current script
+        currentScriptPath = os.path.abspath(__file__)
+        # Define the base directory as the parent of the 'tests' directory
+        baseDir = os.path.dirname(os.path.dirname(currentScriptPath))
+        # Construct the absolute path to the database file
+        dbPath = os.path.join(baseDir, 'instance', 'database.db')
+        con = sq.connect(dbPath)
         cur = con.cursor()
     
         if query is None: # Select a column
             result = cur.execute(f"SELECT {column} FROM {table}").fetchall()
         else: # Specific Query
-            result = cur.execute(f"SELECT {column} FROM {table} WHERE {query_col} = {query}").fetchall()
+            result = cur.execute(f"SELECT {column} FROM {table} WHERE {queryCol} = {query}").fetchall()
         
         con.close()  # Close the connection
         return result
@@ -49,7 +55,14 @@ class DbAccessSingleton(object):
     # newclass.custom_query("SELECT * FROM Exercises WHERE Name = 'Push-ups'")
     def custom_query(self, text):
         # Connect to database and add cursor
-        con = sq.connect('Flask Web App/instance/database.db')
+
+        # Get the absolute path of the current script
+        currentScriptPath = os.path.abspath(__file__)
+        # Define the base directory as the parent of the 'tests' directory
+        baseDir = os.path.dirname(os.path.dirname(currentScriptPath))
+        # Construct the absolute path to the database file
+        dbPath = os.path.join(baseDir, 'instance', 'database.db')
+        con = sq.connect(dbPath)
         cur = con.cursor()
         
         result = cur.execute(text).fetchall()
@@ -64,7 +77,13 @@ class DbAccessSingleton(object):
     # newclass.insert('SavedWorkouts', "(3, 'a123', 'My Workout', 'Push-ups', 2, 'Until failure', 'None')")
     def insert(self, table, values):
         # Connect to database and add cursor
-        con = sq.connect('Flask Web App/instance/database.db')
+        # Get the absolute path of the current script
+        currentScriptPath = os.path.abspath(__file__)
+        # Define the base directory as the parent of the 'tests' directory
+        baseDir = os.path.dirname(os.path.dirname(currentScriptPath))
+        # Construct the absolute path to the database file
+        dbPath = os.path.join(baseDir, 'instance', 'database.db')
+        con = sq.connect(dbPath)
         cur = con.cursor()
         
         # Run insert query
@@ -89,12 +108,17 @@ class DbAccessSingleton(object):
     # # Update the record in the database
     # db_instance.update(table_name, set_values, where_condition, (new_sets, new_reps, new_weights, username, workout_name, exercise_name))
         
-    def update(self, table, set_values, where_condition,values):
-        # Connect to database and add cursor using the with statement
-        with sq.connect('Flask Web App/instance/database.db') as con:
-            # Run update query with parameterized query
-            cur = con.cursor()
-            cur.execute(f"UPDATE {table} SET {set_values} WHERE {where_condition}", values)
-            con.commit()
+    def update(self, table, setValues, whereCondition, values):
+        # Get the absolute path of the current script
+        currentScriptPath = os.path.abspath(__file__)
+        # Define the base directory as the parent of the 'tests' directory
+        baseDir = os.path.dirname(os.path.dirname(currentScriptPath))
+        # Construct the absolute path to the database file
+        dbPath = os.path.join(baseDir, 'instance', 'database.db')
+        con = sq.connect(dbPath)
+        # Run update query with parameterized query
+        cur = con.cursor()
+        cur.execute(f"UPDATE {table} SET {setValues} WHERE {whereCondition}", values)
+        con.commit()
         con.close()  # Close the connection
        

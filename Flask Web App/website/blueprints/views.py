@@ -30,7 +30,7 @@ def home():
             workoutNames.append(tempName)
         for name in workoutNames:
             workoutObj = UserWorkout({'name': name, 'exercises': []})
-            workoutObj.getWorkoutDB()
+            workoutObj.get_workout_db()
             workoutList.append(workoutObj)
         # print(workoutList)
         # workoutObj = UserWorkout({'name': workoutName, 'exercises': []})

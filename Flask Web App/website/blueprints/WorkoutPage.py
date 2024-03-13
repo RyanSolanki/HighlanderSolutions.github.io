@@ -49,7 +49,7 @@ def save_workout():
     return render_template('home.html', user=current_user)
 
 
-@workoutPage.route('/save_workout_data', methods=['POST'])
+@WorkoutPage.route('/save_workout_data', methods=['POST'])
 def save_workout_data():
     if request.method == 'POST':
         # Extract recommendation data from the request
@@ -69,7 +69,7 @@ def save_workout_data():
         # Redirect to the same route with a GET request
         return redirect(url_for('WorkoutPage.save_workout_data'))
 
-@workoutPage.route('/save_workout_data', methods=['GET'])
+@WorkoutPage.route('/save_workout_data', methods=['GET'])
 def get_recommendation():
     # Retrieve recommendation data from the session
     recommendation = session.get('recommendation', [])
@@ -82,7 +82,7 @@ def get_recommendation():
     return render_template('ModifiedWorkoutPage.html', recommendation=recommendation, preselectedInfo=preselectedInfo, workoutNames=workoutNames, user=current_user)
 
 # Displays recommended workout based on user input
-@workoutPage.route('/Result', methods=['GET', 'POST'])
+@WorkoutPage.route('/Result', methods=['GET', 'POST'])
 def result():
     muscleGroup = request.args.get('muscle_group')
     equipment = request.args.get('equipment')

@@ -5,14 +5,35 @@
         <form method="post" action="{{ url_for('views.home') }}" style="text-align: center;">
             <h3>UIPage</h3>
             <div class="form-group">
+                <!--
                 <label for="MuscleGroup">Muscle Group</label>
+                <br>
+                <input type="checkbox" id="Chests" name="MuscleGroup" value="Chest">
+                <label for="Chest">Chest</label>
+                <input type="checkbox" id="Back" name="MuscleGroup" value="Back">
+                <label for="Back">Back</label>
+                <input type="checkbox" id="Legs" name="MuscleGroup" value="Legs">
+                <label for="Legs">Legs</label>
+                <input type="checkbox" id="Arms" name="MuscleGroup" value="Arms">
+                <label for="Arms">Arms</label>
+                <input type="checkbox" id="Abs" name="MuscleGroup" value="Abs">
+                <label for="Abs">Abs</label> 
+                -->
                 <select class="form-control" id="MuscleGroup" name="MuscleGroup">
                     <option value="Chest">Chest</option>
                     <option value="Back">Back</option>
                     <option value="Legs">Legs</option>
                     <option value="Arms">Arms</option>
                     <option value="Abs">Abs</option>
-                </select>
+                    <!--
+                    {% for group in muscle_groups %}
+                    <div class="form-check">
+                        <input type='checkbox' id="{{ group }}" name="MuscleGroup" value="{{ group }}">
+                        <label for="{{ group }}">{{ group }}</label>
+                    </div>
+                    {% endfor %}
+                    -->
+               </select>
             </div>
             <div class="form-group">
                 <label for="Equipment">Available Equipment</label>

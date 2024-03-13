@@ -84,20 +84,23 @@ def get_recommendation():
 # Displays recommended workout based on user input
 @WorkoutPage.route('/Result', methods=['GET', 'POST'])
 def result():
-    muscle_group = request.args.get('muscle_group')
+    muscle_group = request.args.get('muscle_group') #muscle_groups = request.args.getlist('muscle_groups')
     equipment = request.args.get('equipment')
-    recommendation = fetch_recommendation(muscle_group, equipment)
+    recommendation = fetch_recommendation(muscle_group,equipment)#recommendation = fetch_recommendation(muscle_groups, equipment)
     recommendation = [sublist[0] for sublist in recommendation]
     user = current_user if current_user.is_authenticated else None
 
     result = db_instance.custom_query("SELECT DISTINCT WorkoutName FROM SavedWorkouts WHERE UserID = " + f"'{current_user.email}'")
     result = list(result)
     workoutNames = [name[0] for name in result]
-    return render_template('Result.html', recommendation=recommendation, workoutNames=workoutNames, user=user)
+    return render_template('Result.html', recommendation=recommendation, workoutNames=workoutNames, muscle_group=muscle_group, user=user) #changed muscle_group=muscle_group to muscle_groups=muscle_groups
 
-def fetch_recommendation(muscle_group, equipment):
+def fetch_recommendation(muscle_group, equipment): #Changed muscle_group to muscle_groups for multi select
     # Use the search method from DbAccessSingleton to fetch data from the database
-    result = db_instance.custom_query(f'SELECT Name FROM Exercises WHERE EquipType = "{equipment}" AND MuscleGroup = "{muscle_group}"')
+    #query = f"SELECT Name FROM Exercises WHERE EquipType = '{equipment}' AND MuscleGroup IN ({','.join(['?' for _ in muscle_groups])})" 
+    #muscle_group_condition = "OR".join([f'MuscleGroup = "{group}"' for group in muscle_groups])#for multi select
+    #query = f'SELECT Name FROM Exercises WHERE EquipType = "{equipment}" AND ({muscle_group_condition})' #For multi select
+    result = db_instance.custom_query(f'SELECT Name FROM Exercises WHERE EquipType = "{equipment}" AND MuscleGroup = "{muscle_group}"')#result = db_instance.custom_query(query, muscle_groups)
 
     # Return the recommendation if found, otherwise return a default message
     return result if result else "No workout recommendation found for the selected Muscle Group and Equipment."

@@ -14,10 +14,10 @@ views = Blueprint('views', __name__) # The first argument is the name of the blu
 @login_required # This is a decorator that tells Flask we need to login before accessing the home page
 def home():
     if request.method == 'POST':
-        muscle_group = request.form.get('MuscleGroup')
+        muscle_group = request.form.get('MuscleGroup') #get to getlist and muscle_group to muscle_groups for multi selec
         equipment = request.form.get('Equipment')
 
-        return redirect(url_for('WorkoutPage.result', muscle_group=muscle_group, equipment=equipment))
+        return redirect(url_for('WorkoutPage.result', muscle_group=muscle_group, equipment=equipment)) #return redirect(url_for('WorkoutPage.result', muscle_groups=','.join(muscle_groups), equipment=equipment))#for multi musc selec
 
     else:
         workoutNames = []
@@ -33,8 +33,7 @@ def home():
             workoutObj.getWorkoutDB()
             workoutList.append(workoutObj)
         # print(workoutList)
-            
         # workoutObj = UserWorkout({'name': workoutName, 'exercises': []})
         # workoutObj.getWorkoutDB(workoutName)
-        # workoutObj.printWorkout()
+        # workoutObj.printWorkout()#Below was WorkoutViewer
         return render_template("WorkoutViewer.html", user=current_user, workoutList=workoutList)

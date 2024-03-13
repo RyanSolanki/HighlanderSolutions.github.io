@@ -27,7 +27,8 @@ $(document).ready(function() {
             if (!exerciseGroups[exercise.muscleGroup]) {
                 exerciseGroups[exercise.muscleGroup] = [];
                 // Initialize an empty array for this muscle group
-                selectedExercisesByMuscleGroup[exercise.muscleGroup] = []; 
+                selectedExercisesByMuscleGroup[exercise.muscleGroup] = [];
+
             }
             if(preSelectedExercises != null){
                 for (let i = 0; i < preSelectedExercises.length; i++) {
@@ -120,7 +121,6 @@ $(document).ready(function() {
         var exercise = $(this).data('exercise');
         var muscleGroup = exercise.muscleGroup;
         var index = selectedExercisesByMuscleGroup[muscleGroup].findIndex(function(item) {
-            return item.name === exercise.name;
         });
         if (index !== -1) {
             delete savedExerciseInfo[exercise.name];

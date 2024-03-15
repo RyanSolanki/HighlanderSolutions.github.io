@@ -97,7 +97,7 @@ WebDriverWait(driver, 5).until(
 submit = driver.find_element(By.ID, 'submitWorkoutButton')
 submit.click()
 time.sleep(10)
-if(WebDriverWait(driver), 5).until(EC.presence_of_all_elements_located((By.XPATH, f"//button[text()='{}']"))):
+if(WebDriverWait(driver), 5).until(EC.presence_of_all_elements_located((By.XPATH, f"//button[text()='{'Start Workout'}']"))):
     print('Successfully created exercise')
 else:
     print('Failed to create exercise')

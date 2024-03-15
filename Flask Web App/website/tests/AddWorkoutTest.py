@@ -61,20 +61,20 @@ selectSets.clear()
 selectSets.send_keys('1' + Keys.ENTER)
 time.sleep(2)
 
+#Access Exercise Info Reps TextBox
 WebDriverWait(driver, 5).until(
-        EC.presence_of_element_located((By.CLASS_NAME, 'form-control mb-2 mr-2'))
+        EC.presence_of_element_located((By.XPATH, f"//input[@placeholder='{'Reps for set 1'}']"))
     )
-selectSets = driver.find_element(By.CLASS_NAME, 'form-control mb-2 mr-2')
-selectSets.click()
-selectSets.send_keys(10 + Keys.ENTER)
+selectReps = driver.find_element(By.XPATH, f"//input[@placeholder='{'Reps for set 1'}']")
+selectReps.send_keys('5' + Keys.ENTER)
 time.sleep(3)
-
+#Access Exercise Infor Weight TextBox
 WebDriverWait(driver, 5).until(
-        EC.presence_of_element_located((By.CLASS_NAME, 'form-control mb-2'))
+        EC.presence_of_element_located((By.XPATH, f"//input[@placeholder='{'Weight for set 1'}']"))
     )
-selectSets = driver.find_element(By.CLASS_NAME, 'form-control mb-2')
-selectSets.click()
-selectSets.send_keys('15' + Keys.ENTER)
+selectSets = driver.find_element(By.XPATH, f"//input[@placeholder='{'Weight for set 1'}']")
+#selectSets.click()
+selectSets.send_keys('27' + Keys.ENTER)
 time.sleep(2)
 selectSets = driver.find_element(By.ID, 'modalButton')
 selectSets.click()
@@ -87,7 +87,7 @@ WebDriverWait(driver, 5).until(
 time.sleep(4)
 selectName = driver.find_element(By.ID,'workoutName')
 selectName.clear()
-selectName.send_keys('Chest Workout')
+selectName.send_keys('CW3')
 
 
 time.sleep(3)
@@ -97,4 +97,8 @@ WebDriverWait(driver, 5).until(
 submit = driver.find_element(By.ID, 'submitWorkoutButton')
 submit.click()
 time.sleep(10)
+if WebDriverWait(driver, 5).until(EC.presence_of_all_elements_located((By.ID, 'workout-container'))):
+    print('Successfully created exercise')
+else:
+    print('Failed to create exercise')
 driver.quit()
